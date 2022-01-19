@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".EditProfileFragment">
+
+    <ImageView
+        android:id="@+id/coverPhoto"
+        android:layout_width="0dp"
+        android:layout_height="170dp"
+        android:src="@color/grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/dpHolder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="105dp"
+        app:cardCornerRadius="65dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/coverPhoto">
+
+        <ImageView
+            android:id="@+id/profilePhoto"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:src="@color/white" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_camera"
+        android:layout_marginEnd="30dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="150dp"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_camera"
+        android:elevation="20dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="@+id/dpHolder"
+        app:layout_constraintBottom_toBottomOf="@+id/dpHolder"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/saveButton"
+        style="@style/buttonText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="30dp"
+        android:backgroundTint="@color/pink"
+        android:layout_marginTop="70dp"
+        app:icon="@drawable/ic_save"
+        android:text="Save"
+        android:textSize="14sp"
+        android:textAllCaps="false"
+        app:cornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/coverPhoto" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/NameEditID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Name"
+        android:textColor = "@color/blue"
+        app:boxStrokeColor = "@color/pink"
+        app:hintTextColor = "@color/pink"
+        android:textColorHint = "@color/pink"
+        app:boxBackgroundColor="#202325"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="75dp"
+        app:backgroundTint="@color/blue"
+        app:layout_constraintTop_toBottomOf="@+id/dpHolder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/NameEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blue"
+            android:textAppearance="@style/EditButtonText"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/BioEditID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Bio"
+        android:textColor = "@color/blue"
+        app:boxStrokeColor = "@color/pink"
+        app:hintTextColor = "@color/pink"
+        android:textColorHint = "@color/pink"
+        app:boxBackgroundColor="#202325"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="20dp"
+        app:backgroundTint="@color/blue"
+        app:layout_constraintTop_toBottomOf="@+id/NameEditID"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/BioEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blue"
+            android:textAppearance="@style/EditButtonText"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/dobEditID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Date Of Birth"
+        android:textColor = "@color/blue"
+        app:boxStrokeColor = "@color/pink"
+        app:hintTextColor = "@color/pink"
+        android:textColorHint = "@color/pink"
+        app:boxBackgroundColor="#202325"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="20dp"
+        app:backgroundTint="@color/blue"
+        app:layout_constraintTop_toBottomOf="@+id/BioEditID"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/dobEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blue"
+            android:textAppearance="@style/EditButtonText"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/GenderEditID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Gender"
+        android:textColor = "@color/blue"
+        app:boxStrokeColor = "@color/pink"
+        app:hintTextColor = "@color/pink"
+        android:textColorHint = "@color/pink"
+        app:boxBackgroundColor="#202325"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="20dp"
+        app:backgroundTint="@color/blue"
+        app:layout_constraintTop_toBottomOf="@+id/dobEditID"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/GenderEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blue"
+            android:textAppearance="@style/EditButtonText"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/ResidenceEditID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Residence"
+        android:textColor = "@color/blue"
+        app:boxStrokeColor = "@color/pink"
+        app:hintTextColor = "@color/pink"
+        android:textColorHint = "@color/pink"
+        app:boxBackgroundColor="#202325"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="20dp"
+        app:backgroundTint="@color/blue"
+        app:layout_constraintTop_toBottomOf="@+id/GenderEditID"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/ResidenceEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blue"
+            android:textAppearance="@style/EditButtonText"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

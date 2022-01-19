@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">OurSpace</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="long_caption">Many of life\'s failures are people who did not realize how close they were to success when they gave up. \n-Thomas Alva Edison</string>
+
+    <string-array name="userNames">
+        <item name="User1">Adarsh Kumar Goswami</item>
+        <item name="User2">Rahul Sahoo</item>
+        <item name="User3">Dhairya Joshi</item>
+        <item name="User4">Riya Singh</item>
+        <item name="User5">Arya Prakash</item>
+    </string-array>
+
+    <string-array name="uploadTimes">
+        <item name="User1">Just Now</item>
+        <item name="User2">A few minutes ago</item>
+        <item name="User3">An hour ago</item>
+        <item name="User4">2h</item>
+        <item name="User5">Yesterday</item>
+    </string-array>
+
+    <string-array name="captions">
+        <item name="User1">Many of life\'s failures are people who did not realize how close they were to success when they gave up. \n-Thomas Alva Edison</item>
+        <item name="User2">Hii, guys</item>
+        <item name="User3">Welcome to the Orientation</item>
+        <item name="User4">Get Started Now</item>
+        <item name="User5">Vision the Unvisioned</item>
+    </string-array>
+</resources>
