@@ -5,16 +5,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ourspace.R
 
-class FeedRVAdapter(private val userNames: Array<String>,private val uploadTimes: Array<String>,private val captions: Array<String>) : RecyclerView.Adapter<FeedRVAdapter.ItemViewHolder>() {
-    inner class ItemViewHolder(view: View): RecyclerView.ViewHolder(view) {
+class FeedRVAdapter(
+    private val userNames: Array<String>,
+    private val uploadTimes: Array<String>,
+    private val captions: Array<String>
+) : RecyclerView.Adapter<FeedRVAdapter.ItemViewHolder>() {
+    inner class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val userName: TextView = view.findViewById(R.id.userName)
         val uploadTime: TextView = view.findViewById(R.id.time)
         val caption: TextView = view.findViewById(R.id.caption)
-        val profilePhoto : ImageView = view.findViewById(R.id.profilePhoto)
-        val image : ImageView = view.findViewById(R.id.image)
+        val profilePhoto: ImageView = view.findViewById(R.id.profilePhoto)
+        val image: ImageView = view.findViewById(R.id.image)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -22,7 +27,8 @@ class FeedRVAdapter(private val userNames: Array<String>,private val uploadTimes
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.feed_items_layout, parent, false)
 
-        return ItemViewHolder(adapterLayout)    }
+        return ItemViewHolder(adapterLayout)
+    }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val currentUserName = userNames[position]
@@ -31,6 +37,9 @@ class FeedRVAdapter(private val userNames: Array<String>,private val uploadTimes
         holder.userName.text = currentUserName
         holder.uploadTime.text = currentUploadTime
         holder.caption.text = currentCaption
+        holder.profilePhoto.setOnClickListener {
+            Navigation.createNavigateOnClickListener(R.id.action_feedFragment_to_userProfileFragment).onClick(holder.profilePhoto)
+        }
     }
 
     override fun getItemCount(): Int {

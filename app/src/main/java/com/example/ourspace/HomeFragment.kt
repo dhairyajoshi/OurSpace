@@ -2,14 +2,11 @@ package com.example.ourspace
 
 import android.os.Build
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.navigation.fragment.findNavController
 import com.example.ourspace.databinding.FragmentHomeBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeFragment : Fragment() {
 
@@ -28,6 +25,11 @@ class HomeFragment : Fragment() {
         binding.create.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_createFragment)
         }
+
+        binding.logout.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
+        }
+
         return binding.root
     }
 

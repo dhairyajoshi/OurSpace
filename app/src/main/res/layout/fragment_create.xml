@@ -51,14 +51,16 @@
         android:id="@+id/imageHolder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         app:cardCornerRadius="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/createText">
+        app:layout_constraintTop_toBottomOf="@id/addImage">
 
         <ImageView
+            android:id="@+id/postImage"
             android:layout_width="300dp"
+            android:scaleType="centerCrop"
             android:layout_height="300dp"
             android:src="@color/blue" />
 
@@ -69,15 +71,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="50dp"
         app:cardCornerRadius="25dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageHolder">
+        app:layout_constraintTop_toBottomOf="@id/createText">
 
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@color/grey" />
+            android:src="@drawable/ic_avatars" />
 
     </androidx.cardview.widget.CardView>
 
@@ -87,8 +89,8 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:background="@android:color/transparent"
-        android:hint="What's in you mind?"
         android:fontFamily="@font/hkgrotesk_medium"
+        android:hint="What's in you mind?"
         android:textColor="@color/white"
         android:textColorHint="#baf1f1f1"
         app:layout_constraintBottom_toBottomOf="@id/dpHolder"
@@ -96,5 +98,19 @@
         app:layout_constraintStart_toEndOf="@id/dpHolder"
         app:layout_constraintTop_toTopOf="@id/dpHolder" />
 
+    <TextView
+        android:id="@+id/addImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:drawablePadding="5dp"
+        android:fontFamily="@font/hkgrotesk_medium"
+        android:gravity="center"
+        android:text="Add Image"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:drawableStartCompat="@drawable/ic_add"
+        app:layout_constraintStart_toStartOf="@id/dpHolder"
+        app:layout_constraintTop_toBottomOf="@id/dpHolder" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
