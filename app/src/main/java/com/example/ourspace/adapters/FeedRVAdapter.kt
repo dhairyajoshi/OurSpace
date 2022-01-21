@@ -62,7 +62,11 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
                         override fun onResponse(call: Call<LikeResponse?>, response: Response<LikeResponse?>) {
                             if (response.isSuccessful) {
 
-                                if (response.body()?.msg.toString() == "0") likePost(position, like = like, noOflikes = noOflikes) else return
+                                if (response.body()?.msg.toString() == "0"){
+                                    like.setImageResource(R.drawable.ic_favorite_fill)
+                                    likePost(position, like = like, noOflikes = noOflikes)
+
+                                }
 
                             }
                         }
