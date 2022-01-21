@@ -60,6 +60,8 @@ class UserProfileFragment : Fragment() {
                     binding.noOfLikes.text=response.body()?.likes.toString()
                     binding.noOfPosts.text=response.body()?.posts.toString()
 
+                    // shimmers here
+
                     Glide.with(activity!!)
                         .load("${ApiClient.BASE_URL}${response.body()?.pfp}")
                         .placeholder(R.drawable.ic_logo)
@@ -68,7 +70,6 @@ class UserProfileFragment : Fragment() {
                     Glide.with(activity!!)
                         .load("${ApiClient.BASE_URL}${response.body()?.cfp}")
                         .placeholder(R.drawable.ic_logo)
-                        .centerInside()
                         .into(binding.coverPhoto);
                 }
                 else{

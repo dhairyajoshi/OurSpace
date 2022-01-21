@@ -69,6 +69,7 @@ class FeedFragment : Fragment() {
                     response: Response<List<PostResponse>?>
                 ) {
                     if (response.isSuccessful) {
+
                         adapter =
                             activity?.let {
                                 response.body()?.let { it1 -> FeedRVAdapter(it, it1) }
@@ -90,10 +91,9 @@ class FeedFragment : Fragment() {
                 }
 
                 override fun onFailure(call: Call<List<PostResponse>?>, t: Throwable) {
-                    Toast.makeText(context, "Please login again", Toast.LENGTH_SHORT).show()
-                    editor.apply {
-                        putString("token", null)
-                        putBoolean("isLogin", false)
+                    editor.apply{
+                        putString("token",null)
+                        putBoolean("isLogin",false)
                         apply()
 
                     }
@@ -110,7 +110,7 @@ class FeedFragment : Fragment() {
             android.R.color.holo_blue_bright,
             android.R.color.holo_green_light,
             android.R.color.holo_orange_light,
-            android.R.color.holo_red_light
+
         )
 
         if (activity?.let {
@@ -143,11 +143,10 @@ class FeedFragment : Fragment() {
         }
 
 
-        var shredpref =
-            this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
-        var editor = shredpref.edit()
-        var token: String = shredpref.getString("token", null).toString()
-        var header = "Bearer $token"
+        var shredpref= this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
+        var editor= shredpref.edit()
+        var token: String = shredpref.getString("token",null).toString()
+        var header= "Bearer $token"
         var postResponse = ApiClient.userService.getPosts(header)
         var userResponse = ApiClient.userService.getUser(header)
 
@@ -160,18 +159,14 @@ class FeedFragment : Fragment() {
                     val firstName = parts?.firstOrNull()
                     binding.greetings.text = "${getGreetingMessage()}${firstName}"
                 } else {
-                    Toast.makeText(context, "Some went wrong...", Toast.LENGTH_SHORT).show()
+
 
                     editor.apply {
                         putString("token", null)
                         putBoolean("isLogin", false)
                         apply()
                     }
-                    Toast.makeText(
-                        context,
-                        "Couldn't fetch data, please login again",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -181,11 +176,7 @@ class FeedFragment : Fragment() {
                     putBoolean("isLogin", false)
                     apply()
                 }
-                Toast.makeText(
-                    context,
-                    "Couldn't fetch data, please login again",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
             }
         })
 
@@ -202,15 +193,12 @@ class FeedFragment : Fragment() {
                     adapter =
                         activity?.let { response.body()?.let { it1 -> FeedRVAdapter(it, it1) } }!!
                     binding.feedRV.adapter = adapter
-                } else {
-                    Toast.makeText(
-                        context,
-                        "Couldn't fetch data, please login again",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    editor.apply {
-                        putString("token", null)
-                        putBoolean("isLogin", false)
+                }
+                else{
+                    Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
+                    editor.apply{
+                        putString("token",null)
+                        putBoolean("isLogin",false)
                         apply()
                     }
                 }
@@ -224,19 +212,13 @@ class FeedFragment : Fragment() {
                     apply()
 
                 }
-                Toast.makeText(
-                    context,
-                    "Couldn't fetch data, please login again",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
             }
         })
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<String>,
-        grantResults: IntArray
-    ) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
+                                            grantResults: IntArray) {
         when (requestCode) {
             1 -> {
                 if (grantResults.isNotEmpty() && grantResults[0] ==

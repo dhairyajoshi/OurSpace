@@ -13,6 +13,7 @@ import com.example.ourspace.databinding.FragmentRegisterBinding
 import com.example.ourspace.retrofit.ApiClient
 import com.example.ourspace.retrofit.SignupResponse
 import com.example.ourspace.retrofit.UserRegister
+import com.example.ourspace.retrofit.UserResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,9 +32,11 @@ class RegisterFragment : Fragment() {
 
         var shredpref= this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
         var editor=shredpref.edit()
-        var logged= shredpref.getBoolean("isLogin",false)
-        if(logged)
-            findNavController().navigate(R.id.homeFragment)
+        var token: String = shredpref.getString("token",null).toString()
+        var header= "Bearer $token"
+
+
+
 
         binding.register.setOnClickListener {
             if(binding.userName.text.isNullOrEmpty())
@@ -99,6 +102,8 @@ class RegisterFragment : Fragment() {
 
         return binding.root
     }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()

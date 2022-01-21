@@ -115,6 +115,8 @@ class ProfileFragment : Fragment() {
                                 .placeholder(R.drawable.ic_logo)
                                 .circleCrop()
                                 .into(binding.profilePhoto)
+
+                            // <-------------profile shimmers here--------------->
                         };
                     }
                     else
@@ -174,6 +176,8 @@ class ProfileFragment : Fragment() {
                                 .placeholder(R.drawable.ic_logo)
                                 .into(binding.coverPhoto)
                         };
+
+                        // <------------- cover shimmers here--------------->
                     }
                     else
                     {
@@ -207,7 +211,7 @@ class ProfileFragment : Fragment() {
         var editor= shredpref.edit()
         var token: String = shredpref.getString("token",null).toString()
         var header= "Bearer $token"
-        binding.coverPhoto.adjustViewBounds=true
+
 
         var userResponse = ApiClient.userService.getUser(header)
 
@@ -228,8 +232,9 @@ class ProfileFragment : Fragment() {
                     Glide.with(activity!!)
                         .load("${ApiClient.BASE_URL}${response.body()?.cfp}")
                         .placeholder(R.drawable.ic_logo)
-                        .centerInside()
                         .into(binding.coverPhoto);
+
+                    // <-------------both shimmers here--------------->
                 }
                 else{
                     editor.apply{
