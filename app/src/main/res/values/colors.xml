@@ -11,5 +11,6 @@
     <color name="background">#FF181A1C</color>
     <color name="pink">#FFF62E8E</color>
     <color name="blue">#FF2E8AF6</color>
+    <color name="shimmer_color">#FF788292</color>
 
 </resources>

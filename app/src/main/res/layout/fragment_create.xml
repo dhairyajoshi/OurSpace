@@ -62,7 +62,7 @@
             android:layout_width="300dp"
             android:scaleType="centerCrop"
             android:layout_height="300dp"
-            android:src="@color/blue" />
+            android:src="@color/background" />
 
     </androidx.cardview.widget.CardView>
 
@@ -92,7 +92,7 @@
         android:layout_marginEnd="20dp"
         android:background="@android:color/transparent"
         android:fontFamily="@font/hkgrotesk_medium"
-        android:hint="Caption"
+        android:hint="What's in your Mind?"
         android:textColor="@color/white"
         android:textColorHint="#baf1f1f1"
         app:layout_constraintBottom_toBottomOf="@id/dpHolder"

@@ -39,73 +39,98 @@ class NotificationsFragment : Fragment() {
     ): View {
         _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
 
-        var shredpref= this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
-        var editor= shredpref.edit()
-        var token: String = shredpref.getString("token",null).toString()
-        var header= "Bearer $token"
+        binding.shimmer.startShimmer()
+        binding.notificationsRV.visibility = View.GONE
+
+        var shredpref =
+            this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
+        var editor = shredpref.edit()
+        var token: String = shredpref.getString("token", null).toString()
+        var header = "Bearer $token"
 
         var userResponse = ApiClient.userService.getUser(header)
 
         userResponse.enqueue(object : Callback<UserResponse?> {
             override fun onResponse(call: Call<UserResponse?>, response: Response<UserResponse?>) {
-                if (response.isSuccessful)
-                {
-                    binding.greetings.text = "${response.body()?.first_name}'s notifications"
-                }
-                else{
+                if (response.isSuccessful) {
+                    val fullName = response.body()?.first_name
+                    val parts = fullName?.split(" ")?.toMutableList()
+                    val firstName = parts?.firstOrNull()
+                    binding.greetings.text = "${firstName}'s notifications"
+                } else {
 
-                    editor.apply{
-                        putString("token",null)
-                        putBoolean("isLogin",false)
+                    editor.apply {
+                        putString("token", null)
+                        putBoolean("isLogin", false)
                         apply()
                     }
-                    Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "Couldn't fetch data, please login again",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
             override fun onFailure(call: Call<UserResponse?>, t: Throwable) {
-                Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
-                editor.apply{
-                    putString("token",null)
-                    putBoolean("isLogin",false)
+                Toast.makeText(
+                    context,
+                    "Couldn't fetch data, please login again",
+                    Toast.LENGTH_SHORT
+                ).show()
+                editor.apply {
+                    putString("token", null)
+                    putBoolean("isLogin", false)
                     apply()
                 }
 
             }
         })
 
-        var notificationResponse= ApiClient.userService.getNotifs(header)
+        var notificationResponse = ApiClient.userService.getNotifs(header)
         notificationResponse.enqueue(object : Callback<List<NotificationResponse>?> {
             override fun onResponse(
                 call: Call<List<NotificationResponse>?>,
                 response: Response<List<NotificationResponse>?>
             ) {
-                if(response.isSuccessful )
-                {
-                    var adapter= context?.let { response.body()?.let { it1 ->
-                        NotificationsRVAdapter(it,
-                            it1
-                        )
-                    } }
-                    binding.notificationsRV.adapter=adapter
-                }
-                else{
-                    editor.apply{
-                        putString("token",null)
-                        putBoolean("isLogin",false)
+                if (response.isSuccessful) {
+                    binding.shimmer.stopShimmer()
+                    binding.shimmer.visibility = View.GONE
+                    binding.notificationsRV.visibility = View.VISIBLE
+                    var adapter = context?.let {
+                        response.body()?.let { it1 ->
+                            NotificationsRVAdapter(
+                                it,
+                                it1
+                            )
+                        }
+                    }
+                    binding.notificationsRV.adapter = adapter
+                } else {
+                    editor.apply {
+                        putString("token", null)
+                        putBoolean("isLogin", false)
                         apply()
                     }
-                    Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "Couldn't fetch data, please login again",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
             override fun onFailure(call: Call<List<NotificationResponse>?>, t: Throwable) {
-                editor.apply{
-                    putString("token",null)
-                    putBoolean("isLogin",false)
+                editor.apply {
+                    putString("token", null)
+                    putBoolean("isLogin", false)
                     apply()
                 }
-                Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    "Couldn't fetch data, please login again",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
 
@@ -130,44 +155,55 @@ class NotificationsFragment : Fragment() {
         swipeContainer = binding.swipeContainer
         // Setup refresh listener which triggers new data loading
         swipeContainer!!.setOnRefreshListener {
-            var shredpref= this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
-            var editor= shredpref.edit()
-            var token: String = shredpref.getString("token",null).toString()
-            var header= "Bearer $token"
+            var shredpref =
+                this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
+            var editor = shredpref.edit()
+            var token: String = shredpref.getString("token", null).toString()
+            var header = "Bearer $token"
 
-            var notificationResponse= ApiClient.userService.getNotifs(header)
+            var notificationResponse = ApiClient.userService.getNotifs(header)
             notificationResponse.enqueue(object : Callback<List<NotificationResponse>?> {
                 override fun onResponse(
                     call: Call<List<NotificationResponse>?>,
                     response: Response<List<NotificationResponse>?>
                 ) {
-                    if(response.isSuccessful )
-                    {
-                        var adapter= context?.let { response.body()?.let { it1 ->
-                            NotificationsRVAdapter(it,
-                                it1
-                            )
-                        } }
-                        binding.notificationsRV.adapter=adapter
+                    if (response.isSuccessful) {
+
+                        var adapter = context?.let {
+                            response.body()?.let { it1 ->
+                                NotificationsRVAdapter(
+                                    it,
+                                    it1
+                                )
+                            }
+                        }
+                        binding.notificationsRV.adapter = adapter
                         swipeContainer!!.isRefreshing = false
-                    }
-                    else{
-                        editor.apply{
-                            putString("token",null)
-                            putBoolean("isLogin",false)
+                    } else {
+                        editor.apply {
+                            putString("token", null)
+                            putBoolean("isLogin", false)
                             apply()
                         }
-                        Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            context,
+                            "Couldn't fetch data, please login again",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
 
                 override fun onFailure(call: Call<List<NotificationResponse>?>, t: Throwable) {
-                    editor.apply{
-                        putString("token",null)
-                        putBoolean("isLogin",false)
+                    editor.apply {
+                        putString("token", null)
+                        putBoolean("isLogin", false)
                         apply()
                     }
-                    Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "Couldn't fetch data, please login again",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             })
 
@@ -180,7 +216,6 @@ class NotificationsFragment : Fragment() {
             android.R.color.holo_red_light
         )
     }
-
 
 
 }
