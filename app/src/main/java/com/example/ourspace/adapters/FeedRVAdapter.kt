@@ -2,6 +2,7 @@ package com.example.ourspace.adapters
 
 import android.content.Context
 import android.graphics.drawable.AnimatedVectorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -45,15 +46,8 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
             itemView.setOnClickListener(object : DoubleClickListener() {
                 override fun onDoubleClick(v: View?) {
                     val position = adapterPosition
-                    dpHeart.alpha = 0.8f
-                    if (drawable is AnimatedVectorDrawableCompat){
-                        avd = drawable
-                        avd.start()
-                    }else if (drawable is AnimatedVectorDrawable){
-                        avd2 = drawable
-                        avd2.start()
-                    }
-                    likePost(position, like = like, noOflikes = noOflikes)
+
+                    likePost(position, like = like, noOflikes = noOflikes,dpHeart = dpHeart,drawable = drawable)
                 }
             })
 
@@ -155,7 +149,9 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
         position: Int,
         holder: ItemViewHolder? = null,
         like: ImageView? = null,
-        noOflikes: TextView? = null
+        noOflikes: TextView? = null,
+        dpHeart: ImageView?=null,
+        drawable:Drawable?=null
     ) {
         var id = posts[position].id
         var shredpref = context.getSharedPreferences("ourspace", Context.MODE_PRIVATE)
@@ -168,8 +164,19 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
                 response: Response<LikedResponse?>
             ) {
                 if (response.isSuccessful) {
-                    var res =
-                        if (response.body()?.msg.toString() == "1") R.drawable.ic_favorite_light else R.drawable.ic_favorite_fill
+                    var res = if (response.body()?.msg.toString() == "1") R.drawable.ic_favorite_light else R.drawable.ic_favorite_fill
+
+                    if (response.body()?.msg.toString() == "0" && dpHeart!=null)
+                    {
+                        dpHeart.alpha = 0.8f
+                        if (drawable is AnimatedVectorDrawableCompat){
+                            avd = drawable
+                            avd.start()
+                        }else if (drawable is AnimatedVectorDrawable){
+                            avd2 = drawable
+                            avd2.start()
+                        }
+                    }
                     if (like == null) {
                         holder!!.like.setImageResource(res)
                         holder!!.noOflikes.text = response.body()?.count.toString()
