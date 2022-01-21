@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -41,11 +42,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:fontFamily="@font/hkgrotesk_semibold"
-                android:text="Adarsh Kumar Goswami"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@id/dpHolder"
-                app:layout_constraintTop_toTopOf="@id/dpHolder" />
+                app:layout_constraintTop_toTopOf="@id/dpHolder"
+                tools:text="Adarsh Kumar Goswami" />
 
             <TextView
                 android:id="@+id/time"
@@ -84,11 +85,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/long_caption"
                 android:textColor="#F1F1F1"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/dpHolder" />
+                app:layout_constraintTop_toBottomOf="@id/dpHolder"
+                tools:text="@string/long_caption" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/imageHolder"

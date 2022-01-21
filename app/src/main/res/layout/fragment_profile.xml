@@ -11,7 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="170dp"
         android:src="@drawable/ic_logo_bg"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -43,12 +43,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/hkgrotesk_bold"
-        android:text="user_name"
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dpHolder" />
+        app:layout_constraintTop_toBottomOf="@+id/dpHolder"
+        tools:text="user_name" />
 
     <!--<TextView
         android:id="@+id/userBio"
@@ -157,11 +157,11 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="5dp"
         android:fontFamily="@font/hkgrotesk_semibold"
-        android:text="Your Full Name"
         android:textColor="@color/blue"
         android:textSize="22sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/NameID" />
+        app:layout_constraintTop_toBottomOf="@+id/NameID"
+        tools:text="Your Full Name" />
 
     <TextView
         android:id="@+id/bioID"
@@ -169,12 +169,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginTop="20dp"
+        android:drawablePadding="10dp"
         android:fontFamily="@font/hkgrotesk_regular"
         android:text="Bio"
-        android:drawablePadding="10dp"
-        app:drawableEndCompat="@drawable/ic_edit"
         android:textColor="@color/pink"
         android:textSize="14sp"
+        app:drawableEndCompat="@drawable/ic_edit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Name" />
 
@@ -184,14 +184,14 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginTop="5dp"
+        android:layout_marginEnd="40dp"
         android:fontFamily="@font/hkgrotesk_semibold"
-        android:text="Enter your bio..."
         android:textColor="@color/blue"
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="40dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bioID" />
+        app:layout_constraintTop_toBottomOf="@+id/bioID"
+        tools:text="Enter your bio..." />
 
     <ImageView
         android:id="@+id/recBG"

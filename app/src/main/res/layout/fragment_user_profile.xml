@@ -11,7 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="170dp"
         android:src="@drawable/ic_logo_bg"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -96,11 +96,11 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="5dp"
         android:fontFamily="@font/hkgrotesk_semibold"
-        android:text="User Full Name"
         android:textColor="@color/blue"
         android:textSize="22sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/NameID" />
+        app:layout_constraintTop_toBottomOf="@+id/NameID"
+        tools:text="User Full Name" />
 
     <TextView
         android:id="@+id/bioID"
@@ -121,14 +121,14 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginTop="5dp"
+        android:layout_marginEnd="40dp"
         android:fontFamily="@font/hkgrotesk_semibold"
-        android:text="User Bio ..."
         android:textColor="@color/blue"
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="40dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bioID" />
+        app:layout_constraintTop_toBottomOf="@+id/bioID"
+        tools:text="User Bio ..." />
 
     <ImageView
         android:id="@+id/recBG"
