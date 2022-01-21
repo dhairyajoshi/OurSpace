@@ -46,8 +46,32 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
             itemView.setOnClickListener(object : DoubleClickListener() {
                 override fun onDoubleClick(v: View?) {
                     val position = adapterPosition
+                    dpHeart.alpha = 0.8f
+                    if (drawable is AnimatedVectorDrawableCompat){
+                        avd = drawable
+                        avd.start()
+                    }else if (drawable is AnimatedVectorDrawable){
+                        avd2 = drawable
+                        avd2.start()
+                    }
+                    var shredpref = context.getSharedPreferences("ourspace", Context.MODE_PRIVATE)
+                    var token: String = shredpref.getString("token", null).toString()
+                    var header = "Bearer $token"
+                    var likeResponse = ApiClient.userService.isLiked(header, posts[position].id)
+                    likeResponse.enqueue(object : Callback<LikeResponse?> {
+                        override fun onResponse(call: Call<LikeResponse?>, response: Response<LikeResponse?>) {
+                            if (response.isSuccessful) {
 
-                    likePost(position, like = like, noOflikes = noOflikes,dpHeart = dpHeart,drawable = drawable)
+                                if (response.body()?.msg.toString() == "0") likePost(position, like = like, noOflikes = noOflikes) else return
+
+                            }
+                        }
+
+                        override fun onFailure(call: Call<LikeResponse?>, t: Throwable) {
+                            Toast.makeText(context, "something went wrong...", Toast.LENGTH_SHORT).show()
+                        }
+                    })
+
                 }
             })
 
@@ -150,14 +174,17 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
         holder: ItemViewHolder? = null,
         like: ImageView? = null,
         noOflikes: TextView? = null,
-        dpHeart: ImageView?=null,
-        drawable:Drawable?=null
+
     ) {
+
+
         var id = posts[position].id
         var shredpref = context.getSharedPreferences("ourspace", Context.MODE_PRIVATE)
         var token: String = shredpref.getString("token", null).toString()
         var header = "Bearer $token"
         var likeResponse = ApiClient.userService.likePost(header, id)
+
+
         likeResponse.enqueue(object : Callback<LikedResponse?> {
             override fun onResponse(
                 call: Call<LikedResponse?>,
@@ -166,17 +193,6 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
                 if (response.isSuccessful) {
                     var res = if (response.body()?.msg.toString() == "1") R.drawable.ic_favorite_light else R.drawable.ic_favorite_fill
 
-                    if (response.body()?.msg.toString() == "0" && dpHeart!=null)
-                    {
-                        dpHeart.alpha = 0.8f
-                        if (drawable is AnimatedVectorDrawableCompat){
-                            avd = drawable
-                            avd.start()
-                        }else if (drawable is AnimatedVectorDrawable){
-                            avd2 = drawable
-                            avd2.start()
-                        }
-                    }
                     if (like == null) {
                         holder!!.like.setImageResource(res)
                         holder!!.noOflikes.text = response.body()?.count.toString()
