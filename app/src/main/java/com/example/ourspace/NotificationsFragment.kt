@@ -10,11 +10,14 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
+import com.example.ourspace.adapters.FeedRVAdapter
 import com.example.ourspace.adapters.NotificationsRVAdapter
 import com.example.ourspace.databinding.FragmentNotificationsBinding
 import com.example.ourspace.retrofit.ApiClient
 import com.example.ourspace.retrofit.NotificationResponse
+import com.example.ourspace.retrofit.PostResponse
 import com.example.ourspace.retrofit.UserResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -26,6 +29,7 @@ class NotificationsFragment : Fragment() {
 
     private var _binding: FragmentNotificationsBinding? = null
     private val binding get() = _binding!!
+    private var swipeContainer: SwipeRefreshLayout? = null
     private val greetingArgs: NotificationsFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -118,6 +122,63 @@ class NotificationsFragment : Fragment() {
             })
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        swipeContainer = binding.swipeContainer
+        // Setup refresh listener which triggers new data loading
+        swipeContainer!!.setOnRefreshListener {
+            var shredpref= this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
+            var editor= shredpref.edit()
+            var token: String = shredpref.getString("token",null).toString()
+            var header= "Bearer $token"
+
+            var notificationResponse= ApiClient.userService.getNotifs(header)
+            notificationResponse.enqueue(object : Callback<List<NotificationResponse>?> {
+                override fun onResponse(
+                    call: Call<List<NotificationResponse>?>,
+                    response: Response<List<NotificationResponse>?>
+                ) {
+                    if(response.isSuccessful )
+                    {
+                        var adapter= context?.let { response.body()?.let { it1 ->
+                            NotificationsRVAdapter(it,
+                                it1
+                            )
+                        } }
+                        binding.notificationsRV.adapter=adapter
+                        swipeContainer!!.isRefreshing = false
+                    }
+                    else{
+                        editor.apply{
+                            putString("token",null)
+                            putBoolean("isLogin",false)
+                            apply()
+                        }
+                        Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<List<NotificationResponse>?>, t: Throwable) {
+                    editor.apply{
+                        putString("token",null)
+                        putBoolean("isLogin",false)
+                        apply()
+                    }
+                    Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
+                }
+            })
+
+        }
+        // Configure the refreshing colors
+        swipeContainer!!.setColorSchemeResources(
+            android.R.color.holo_blue_bright,
+            android.R.color.holo_green_light,
+            android.R.color.holo_orange_light,
+            android.R.color.holo_red_light
+        )
     }
 
 

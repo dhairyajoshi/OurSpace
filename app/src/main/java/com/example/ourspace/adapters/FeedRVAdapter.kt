@@ -16,6 +16,7 @@ import com.example.ourspace.R
 import com.example.ourspace.retrofit.ApiClient
 import com.example.ourspace.retrofit.ApiClient.BASE_URL
 import com.example.ourspace.retrofit.LikeResponse
+import com.example.ourspace.retrofit.LikedResponse
 import com.example.ourspace.retrofit.PostResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -128,52 +129,32 @@ class FeedRVAdapter(var context: Context, var posts:List<PostResponse>) : Recycl
         }
     }
 
-    fun likePost(position: Int,holder: ItemViewHolder?=null,like:ImageView?=null,noOflikes:TextView?=null){
-        var id= posts[position].id
-        var shredpref= context.getSharedPreferences("ourspace", Context.MODE_PRIVATE)
-        var token: String = shredpref.getString("token",null).toString()
-        var header= "Bearer $token"
-        var likeResponse = ApiClient.userService.likePost(header,id)
-        likeResponse.enqueue(object : Callback<LikeResponse?> {
+    fun likePost(position: Int,holder: ItemViewHolder?=null,like:ImageView?=null,noOflikes:TextView?=null) {
+        var id = posts[position].id
+        var shredpref = context.getSharedPreferences("ourspace", Context.MODE_PRIVATE)
+        var token: String = shredpref.getString("token", null).toString()
+        var header = "Bearer $token"
+        var likeResponse = ApiClient.userService.likePost(header, id)
+        likeResponse.enqueue(object : Callback<LikedResponse?> {
             override fun onResponse(
-                call: Call<LikeResponse?>,
-                response: Response<LikeResponse?>
+                call: Call<LikedResponse?>,
+                response: Response<LikedResponse?>
             ) {
-                if(response.isSuccessful)
-                {
-                    var msg = response.body()?.msg.toString()
-//                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            override fun onFailure(call: Call<LikeResponse?>, t: Throwable) {
-                Toast.makeText(context, "Something went wrong...", Toast.LENGTH_SHORT).show()
-            }
-        })
-        var likedResponse= ApiClient.userService.isLiked(header,posts[position].id)
-
-        likedResponse.enqueue(object : Callback<LikeResponse?> {
-            override fun onResponse(call: Call<LikeResponse?>, response: Response<LikeResponse?>) {
-                if(response.isSuccessful)
-                {
-                    var res =if (response.body()?.msg.toString() == "1") R.drawable.ic_favorite_light else R.drawable.ic_favorite_fill
-//                    var likes= if(response.body()?.msg.toString() == "1") posts[position].likes-1 else posts[position].likes+1
-//                    posts[position].likes= if(response.body()?.msg.toString() == "1") posts[position].likes-1 else posts[position].likes+1
-
-                    if(like==null) {
-
+                if (response.isSuccessful) {
+                    var res =
+                        if (response.body()?.msg.toString() == "1")  R.drawable.ic_favorite_light else  R.drawable.ic_favorite_fill
+                    if (like == null) {
                         holder!!.like.setImageResource(res)
-//                        holder!!.noOflikes.text=likes.toString()
-                    }
-                    else{
-//                        noOflikes?.text=likes.toString()
+                        holder!!.noOflikes.text = response.body()?.count.toString()
+                    } else {
+                        noOflikes?.text = response.body()?.count.toString()
                         like.setImageResource(res)
                     }
                 }
             }
 
-            override fun onFailure(call: Call<LikeResponse?>, t: Throwable) {
-                Toast.makeText(context, "something went wrong...", Toast.LENGTH_SHORT).show()
+            override fun onFailure(call: Call<LikedResponse?>, t: Throwable) {
+                Toast.makeText(context, "Something went wrong...", Toast.LENGTH_SHORT).show()
             }
         })
 

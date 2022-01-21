@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.ourspace.retrofit.ApiClient
 import com.example.ourspace.retrofit.PostResponse
 import com.example.ourspace.retrofit.UserResponse
@@ -26,6 +27,7 @@ import java.util.*
 class FeedFragment : Fragment() {
 
     private var _binding: FragmentFeedBinding? = null
+    private var swipeContainer: SwipeRefreshLayout? = null
     private val binding get() = _binding!!
     lateinit var adapter: FeedRVAdapter
     override fun onCreateView(
@@ -45,6 +47,58 @@ class FeedFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+
+        swipeContainer = binding.swipeContainer
+        // Setup refresh listener which triggers new data loading
+        swipeContainer!!.setOnRefreshListener {
+            var shredpref= this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
+            var editor= shredpref.edit()
+            var token: String = shredpref.getString("token",null).toString()
+            var header= "Bearer $token"
+            var postResponse = ApiClient.userService.getPosts(header)
+
+            postResponse.enqueue(object : retrofit2.Callback<List<PostResponse>?> {
+                override fun onResponse(
+                    call: Call<List<PostResponse>?>,
+                    response: Response<List<PostResponse>?>
+                ) {
+                    if (response.isSuccessful) {
+
+                        adapter =
+                            activity?.let { response.body()?.let { it1 -> FeedRVAdapter(it, it1) } }!!
+                        binding.feedRV.adapter = adapter
+                        swipeContainer!!.isRefreshing = false
+                    }
+                    else{
+                        Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
+                        editor.apply{
+                            putString("token",null)
+                            putBoolean("isLogin",false)
+                            apply()
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<List<PostResponse>?>, t: Throwable) {
+                    Toast.makeText(context, "Please login again", Toast.LENGTH_SHORT).show()
+                    editor.apply{
+                        putString("token",null)
+                        putBoolean("isLogin",false)
+                        apply()
+
+                    }
+                    Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
+        // Configure the refreshing colors
+        swipeContainer!!.setColorSchemeResources(
+            android.R.color.holo_blue_bright,
+            android.R.color.holo_green_light,
+            android.R.color.holo_orange_light,
+            android.R.color.holo_red_light
+        )
+
         if (activity?.let {
                 ContextCompat.checkSelfPermission(
                     it,

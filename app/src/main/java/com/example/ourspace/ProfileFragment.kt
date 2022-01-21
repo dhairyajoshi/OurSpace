@@ -101,14 +101,21 @@ class ProfileFragment : Fragment() {
 
 
             var uploadResponse= ApiClient.userService.updatePfp(header,body)
-            uploadResponse.enqueue(object : Callback<LikeResponse?> {
+            uploadResponse.enqueue(object : Callback<UserResponse?> {
                 override fun onResponse(
-                    call: Call<LikeResponse?>,
-                    response: Response<LikeResponse?>
+                    call: Call<UserResponse?>,
+                    response: Response<UserResponse?>
                 ) {
                     if (response.isSuccessful)
                     {
-                    Toast.makeText(context, "${response.body()?.msg}", Toast.LENGTH_SHORT).show()
+
+                        context?.let {
+                            Glide.with(it)
+                                .load("${ApiClient.BASE_URL}${response.body()?.pfp}")
+                                .placeholder(R.drawable.ic_logo)
+                                .circleCrop()
+                                .into(binding.profilePhoto)
+                        };
                     }
                     else
                     {
@@ -123,7 +130,7 @@ class ProfileFragment : Fragment() {
                     }
                 }
 
-                override fun onFailure(call: Call<LikeResponse?>, t: Throwable) {
+                override fun onFailure(call: Call<UserResponse?>, t: Throwable) {
                     editor.apply{
                         putString("token",null)
                         putBoolean("isLogin",false)
@@ -153,14 +160,20 @@ class ProfileFragment : Fragment() {
 
 
             var uploadResponse= ApiClient.userService.updateCfp(header,body)
-            uploadResponse.enqueue(object : Callback<LikeResponse?> {
+            uploadResponse.enqueue(object : Callback<UserResponse?> {
                 override fun onResponse(
-                    call: Call<LikeResponse?>,
-                    response: Response<LikeResponse?>
+                    call: Call<UserResponse?>,
+                    response: Response<UserResponse?>
                 ) {
                     if (response.isSuccessful)
                     {
-                        Toast.makeText(context, "${response.body()?.msg}", Toast.LENGTH_SHORT).show()
+
+                        context?.let {
+                            Glide.with(it)
+                                .load("${ApiClient.BASE_URL}${response.body()?.cfp}")
+                                .placeholder(R.drawable.ic_logo)
+                                .into(binding.coverPhoto)
+                        };
                     }
                     else
                     {
@@ -174,7 +187,7 @@ class ProfileFragment : Fragment() {
                     }
                 }
 
-                override fun onFailure(call: Call<LikeResponse?>, t: Throwable) {
+                override fun onFailure(call: Call<UserResponse?>, t: Throwable) {
                     editor.apply{
                         putString("token",null)
                         putBoolean("isLogin",false)

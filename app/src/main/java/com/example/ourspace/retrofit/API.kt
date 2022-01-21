@@ -16,7 +16,7 @@ interface API {
     fun getPosts(@Header("Authorization") token:String): retrofit2.Call<List<PostResponse>>
 
     @POST("post/likepost/{id}")
-    fun likePost(@Header("Authorization") token:String,@Path("id") id:Int): retrofit2.Call<LikeResponse>
+    fun likePost(@Header("Authorization") token:String,@Path("id") id:Int): retrofit2.Call<LikedResponse>
 
     @GET("users/getinfo")
     fun getUser(@Header("Authorization") token:String): retrofit2.Call<UserResponse>
@@ -35,7 +35,7 @@ interface API {
 
     @Multipart
     @POST("users/updatepfp/")
-    fun updatePfp(@Header("Authorization") token:String,@Part image:MultipartBody.Part): retrofit2.Call<LikeResponse>
+    fun updatePfp(@Header("Authorization") token:String,@Part image:MultipartBody.Part): retrofit2.Call<UserResponse>
 
     @Multipart
     @POST("post/addpost")
@@ -43,7 +43,7 @@ interface API {
 
     @Multipart
     @POST("users/updatecfp/")
-    fun updateCfp(@Header("Authorization") token:String,@Part image:MultipartBody.Part): retrofit2.Call<LikeResponse>
+    fun updateCfp(@Header("Authorization") token:String,@Part image:MultipartBody.Part): retrofit2.Call<UserResponse>
 
 
 }
