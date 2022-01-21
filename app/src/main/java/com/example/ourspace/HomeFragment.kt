@@ -6,6 +6,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.annotation.RequiresApi
 import androidx.navigation.fragment.findNavController
+import com.example.ourspace.BackButtonBehaviour.*
 import com.example.ourspace.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -59,7 +60,7 @@ class HomeFragment : Fragment() {
         val controller = binding.bottomNav.setupWithNavController(
             fragmentManager = childFragmentManager,
             navGraphIds = navGraphIds,
-            backButtonBehaviour = BackButtonBehaviour.SHOW_STARTING_FRAGMENT,
+            backButtonBehaviour = SHOW_STARTING_FRAGMENT,
             containerId = R.id.fragmentHomeContainer,
             firstItemId = R.id.feed, // Must be the same as bottomNavSelectedItemId
             intent = requireActivity().intent

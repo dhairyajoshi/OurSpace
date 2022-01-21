@@ -25,6 +25,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.example.ourspace.BackButtonBehaviour.SHOW_STARTING_FRAGMENT
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 /**
@@ -98,7 +99,7 @@ fun BottomNavigationView.setupWithNavController(
                 val selectedFragment = fragmentManager.findFragmentByTag(newlySelectedItemTag)
                         as NavHostFragment
 
-                if (backButtonBehaviour == BackButtonBehaviour.SHOW_STARTING_FRAGMENT) { // Back button goes to first
+                if (backButtonBehaviour == SHOW_STARTING_FRAGMENT) { // Back button goes to first
                     // Exclude the first fragment tag because it's always in the back stack.
                     if (firstFragmentTag != newlySelectedItemTag) {
                         // Commit a transaction that cleans the back stack and adds the first fragment
