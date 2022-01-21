@@ -1,5 +1,6 @@
 package com.example.ourspace
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.view.*
@@ -27,6 +28,13 @@ class HomeFragment : Fragment() {
         }
 
         binding.logout.setOnClickListener {
+            var shredpref= this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
+            var editor= shredpref.edit()
+            editor.apply{
+                putString("token",null)
+                putBoolean("isLogin",false)
+                apply()
+            }
             findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
         }
 

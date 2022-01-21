@@ -12,11 +12,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="25dp"
         android:fontFamily="@font/hkgrotesk_bold"
-        android:text="Good Morning, Adarsh!"
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Good Morning, Adarsh!" />
 
     <View
         android:id="@+id/separator"

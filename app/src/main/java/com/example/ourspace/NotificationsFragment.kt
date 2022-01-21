@@ -1,25 +1,29 @@
 package com.example.ourspace
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.example.ourspace.adapters.NotificationsRVAdapter
 import com.example.ourspace.databinding.FragmentNotificationsBinding
-import com.example.ourspace.models.NewNotifications
+import com.example.ourspace.retrofit.ApiClient
+import com.example.ourspace.retrofit.NotificationResponse
+import com.example.ourspace.retrofit.UserResponse
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class NotificationsFragment : Fragment() {
 
 
-    private lateinit var newArrayList: ArrayList<NewNotifications>
-    private lateinit var userimg: Array<Int>
-    private lateinit var username: Array<String>
-    private lateinit var date: Array<String>
     private var _binding: FragmentNotificationsBinding? = null
     private val binding get() = _binding!!
     private val greetingArgs: NotificationsFragmentArgs by navArgs()
@@ -30,48 +34,80 @@ class NotificationsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
-        userimg = arrayOf(
-            R.drawable.ic_avatars,
-            R.drawable.ic_avatars,
-            R.drawable.ic_avatars,
-            R.drawable.ic_avatars,
-            R.drawable.ic_avatars,
-            R.drawable.ic_avatars,
-            R.drawable.ic_avatars,
-            R.drawable.ic_avatars,
-            R.drawable.ic_avatars,
-            R.drawable.ic_avatars
 
-        )
-        username = arrayOf(
-            "Adarsh Goswami liked your post.",
-            "Rahul Sahoo liked your post.",
-            "Riya Singh liked your post.",
-            "Adarsh Goswami liked your post.",
-            "Adarsh Goswami liked your post.",
-            "Adarsh Goswami liked your post.",
-            "Adarsh Goswami liked your post.",
-            "Adarsh Goswami liked your post.",
-            "Adarsh Goswami liked your post.",
-            "Adarsh Goswami liked your post."
-        )
-        date = arrayOf(
-            "Just Now",
-            "few moments ago",
-            "an hour ago",
-            "3h ago",
-            "Yesterday",
-            "Yesterday",
-            "Yesterday",
-            "Yesterday",
-            "Yesterday",
-            "Yesterday"
-        )
-        newArrayList = arrayListOf()
-        getUserdata()
-        binding.greetings.text = greetingArgs.greetingMessage
+        var shredpref= this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
+        var editor= shredpref.edit()
+        var token: String = shredpref.getString("token",null).toString()
+        var header= "Bearer $token"
 
-        binding.notificationsRV.adapter = NotificationsRVAdapter(newArrayList)
+        var userResponse = ApiClient.userService.getUser(header)
+
+        userResponse.enqueue(object : Callback<UserResponse?> {
+            override fun onResponse(call: Call<UserResponse?>, response: Response<UserResponse?>) {
+                if (response.isSuccessful)
+                {
+                    binding.greetings.text = "${response.body()?.first_name}'s notifications"
+                }
+                else{
+
+                    editor.apply{
+                        putString("token",null)
+                        putBoolean("isLogin",false)
+                        apply()
+                    }
+                    Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<UserResponse?>, t: Throwable) {
+                Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
+                editor.apply{
+                    putString("token",null)
+                    putBoolean("isLogin",false)
+                    apply()
+                }
+
+            }
+        })
+
+        var notificationResponse= ApiClient.userService.getNotifs(header)
+        notificationResponse.enqueue(object : Callback<List<NotificationResponse>?> {
+            override fun onResponse(
+                call: Call<List<NotificationResponse>?>,
+                response: Response<List<NotificationResponse>?>
+            ) {
+                if(response.isSuccessful )
+                {
+                    var adapter= context?.let { response.body()?.let { it1 ->
+                        NotificationsRVAdapter(it,
+                            it1
+                        )
+                    } }
+                    binding.notificationsRV.adapter=adapter
+                }
+                else{
+                    editor.apply{
+                        putString("token",null)
+                        putBoolean("isLogin",false)
+                        apply()
+                    }
+                    Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<List<NotificationResponse>?>, t: Throwable) {
+                editor.apply{
+                    putString("token",null)
+                    putBoolean("isLogin",false)
+                    apply()
+                }
+                Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+
+
+
 
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
@@ -84,12 +120,6 @@ class NotificationsFragment : Fragment() {
         return binding.root
     }
 
-    private fun getUserdata() {
 
-        for (i in username.indices) {
-            val notifications = NewNotifications(userimg[i], username[i], date[i])
-            newArrayList.add(notifications)
-        }
-    }
 
 }
