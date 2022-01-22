@@ -65,6 +65,7 @@ class UserProfileFragment : Fragment() {
 
                     binding.userName.text = response.body()?.username.toString()
                     binding.Name.text = response.body()?.first_name.toString()
+                    binding.bio.text = response.body()?.bio.toString()
                     binding.noOfLikes.text = response.body()?.likes.toString()
                     binding.noOfPosts.text = response.body()?.posts.toString()
 

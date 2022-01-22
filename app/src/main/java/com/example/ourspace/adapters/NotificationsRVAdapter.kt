@@ -9,6 +9,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.ourspace.R
+import com.example.ourspace.models.Utils.Companion.getTimeAgo
+
 import com.example.ourspace.retrofit.ApiClient
 import com.example.ourspace.retrofit.NotificationResponse
 
@@ -30,8 +32,8 @@ class NotificationsRVAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = notificationlist[position]
         holder.name.text = "${currentItem.sender} liked your post"
-        holder.time.text = currentItem.date
-
+        holder.time.text = getTimeAgo(currentItem.date)
+//        holder.time.text = currentItem.date
         Glide.with(context)
             .load("${ApiClient.BASE_URL}${currentItem.pic}")
             .placeholder(R.drawable.ic_logo)

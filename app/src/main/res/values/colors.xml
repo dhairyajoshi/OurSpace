@@ -12,5 +12,8 @@
     <color name="pink">#FFF62E8E</color>
     <color name="blue">#FF2E8AF6</color>
     <color name="shimmer_color">#FF788292</color>
+    <color name="loader_black">#181A1C</color>
+    <color name="loaderblue">#2E8AF6</color>
+    <color name="loaderpink">#F62E8E</color>
 
 </resources>

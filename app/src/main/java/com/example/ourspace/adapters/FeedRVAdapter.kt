@@ -16,6 +16,7 @@ import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.bumptech.glide.Glide
 import com.example.ourspace.FeedFragment
 import com.example.ourspace.R
+import com.example.ourspace.models.Utils
 import com.example.ourspace.retrofit.ApiClient
 import com.example.ourspace.retrofit.ApiClient.BASE_URL
 import com.example.ourspace.retrofit.LikeResponse
@@ -57,24 +58,21 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
                     var shredpref = context.getSharedPreferences("ourspace", Context.MODE_PRIVATE)
                     var token: String = shredpref.getString("token", null).toString()
                     var header = "Bearer $token"
-                    var likeResponse = ApiClient.userService.isLiked(header, posts[position].id)
-                    likeResponse.enqueue(object : Callback<LikeResponse?> {
+                    var likeResponse = ApiClient.userService.likePost(header, posts[position].id,"dt")
+                    likeResponse.enqueue(object : Callback<LikedResponse?> {
                         override fun onResponse(
-                            call: Call<LikeResponse?>,
-                            response: Response<LikeResponse?>
+                            call: Call<LikedResponse?>,
+                            response: Response<LikedResponse?>
                         ) {
                             if (response.isSuccessful) {
 
-                                if (response.body()?.msg.toString() == "0") {
-                                    like.setImageResource(R.drawable.ic_favorite_fill)
-                                    likePost(position, like = like, noOflikes = noOflikes)
-
-                                }
+                                like.setImageResource(R.drawable.ic_favorite_fill)
+                                noOflikes.text=response.body()?.count.toString()
 
                             }
                         }
 
-                        override fun onFailure(call: Call<LikeResponse?>, t: Throwable) {
+                        override fun onFailure(call: Call<LikedResponse?>, t: Throwable) {
                             Toast.makeText(context, "something went wrong...", Toast.LENGTH_SHORT)
                                 .show()
                         }
@@ -101,15 +99,16 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
         val currentUploadTime = posts[position].date
         val currentCaption = posts[position].caption
         holder.userName.text = currentUserName
-        holder.uploadTime.text = currentUploadTime
+//        holder.uploadTime.text = currentUploadTime
+        holder.uploadTime.text = Utils.getTimeAgo(currentUploadTime)
         holder.caption.text = currentCaption
         var shredpref = context.getSharedPreferences("ourspace", Context.MODE_PRIVATE)
         var token: String = shredpref.getString("token", null).toString()
         var header = "Bearer $token"
-        var likeResponse = ApiClient.userService.isLiked(header, posts[position].id)
+        var likeResponse = ApiClient.userService.likePost(header, posts[position].id,"chk")
 
-        likeResponse.enqueue(object : Callback<LikeResponse?> {
-            override fun onResponse(call: Call<LikeResponse?>, response: Response<LikeResponse?>) {
+        likeResponse.enqueue(object : Callback<LikedResponse?> {
+            override fun onResponse(call: Call<LikedResponse?>, response: Response<LikedResponse?>) {
                 if (response.isSuccessful) {
                     var res =
                         if (response.body()?.msg.toString() == "1") R.drawable.ic_favorite_fill else R.drawable.ic_favorite_light
@@ -117,7 +116,7 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
                 }
             }
 
-            override fun onFailure(call: Call<LikeResponse?>, t: Throwable) {
+            override fun onFailure(call: Call<LikedResponse?>, t: Throwable) {
                 Toast.makeText(context, "something went wrong...", Toast.LENGTH_SHORT).show()
             }
         })
@@ -190,7 +189,7 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
         var shredpref = context.getSharedPreferences("ourspace", Context.MODE_PRIVATE)
         var token: String = shredpref.getString("token", null).toString()
         var header = "Bearer $token"
-        var likeResponse = ApiClient.userService.likePost(header, id)
+        var likeResponse = ApiClient.userService.likePost(header, id,"like")
 
 
         likeResponse.enqueue(object : Callback<LikedResponse?> {

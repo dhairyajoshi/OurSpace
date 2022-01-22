@@ -15,17 +15,14 @@ interface API {
     @GET("post/getposts")
     fun getPosts(@Header("Authorization") token:String): retrofit2.Call<List<PostResponse>>
 
-    @POST("post/likepost/{id}")
-    fun likePost(@Header("Authorization") token:String,@Path("id") id:Int): retrofit2.Call<LikedResponse>
+    @POST("post/likepost/{id}/{act}")
+    fun likePost(@Header("Authorization") token:String,@Path("id") id:Int,@Path("act") act:String): retrofit2.Call<LikedResponse>
 
     @GET("users/getinfo")
     fun getUser(@Header("Authorization") token:String): retrofit2.Call<UserResponse>
 
     @GET("users/getinfo/{usr}")
     fun getUserPrf(@Header("Authorization") token:String,@Path("usr") usr:String): retrofit2.Call<UserResponse>
-
-    @GET("post/isliked/{id}")
-    fun isLiked(@Header("Authorization") token:String,@Path("id") id:Int): retrofit2.Call<LikeResponse>
 
     @POST("users/updateprofile/")
     fun updateUser(@Header("Authorization") token:String, @Body user:UserUpdate): retrofit2.Call<LikeResponse>

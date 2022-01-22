@@ -38,8 +38,8 @@ class LoginFragment : Fragment() {
             binding.progressBar.visibility = View.VISIBLE
             binding.login.visibility = View.GONE
             if (binding.UserName.text != null && binding.Password.text != null) {
-                var username = binding.UserName.text.toString()
-                var password = binding.Password.text.toString()
+                var username = binding.UserName.text.toString().trim()
+                var password = binding.Password.text.toString().trim()
 
                 var user = UserLogin(username, password)
 
@@ -62,6 +62,8 @@ class LoginFragment : Fragment() {
 
                             findNavController().navigate(R.id.homeFragment)
                         } else {
+                            binding.progressBar.visibility = View.GONE
+                            binding.login.visibility = View.VISIBLE
                             Toast.makeText(context, "Invalid Credentials", Toast.LENGTH_SHORT)
                                 .show()
                         }
@@ -69,7 +71,9 @@ class LoginFragment : Fragment() {
                     }
 
                     override fun onFailure(call: Call<LoginResponse?>, t: Throwable) {
-                        Toast.makeText(context, "Some went wrong...", Toast.LENGTH_SHORT).show()
+                        binding.progressBar.visibility = View.GONE
+                        binding.login.visibility = View.VISIBLE
+                        Toast.makeText(context, "Something went wrong...", Toast.LENGTH_SHORT).show()
                     }
 
                 })

@@ -107,9 +107,9 @@ class FeedFragment : Fragment() {
         }
         // Configure the refreshing colors
         swipeContainer!!.setColorSchemeResources(
-            android.R.color.holo_blue_bright,
-            android.R.color.holo_green_light,
-            android.R.color.holo_orange_light,
+            R.color.loaderblue,
+            R.color.loaderpink,
+            R.color.loader_black,
 
         )
 
