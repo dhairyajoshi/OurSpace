@@ -205,7 +205,6 @@ class FeedFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<List<PostResponse>?>, t: Throwable) {
-                Toast.makeText(context, "Please login again", Toast.LENGTH_SHORT).show()
                 editor.apply {
                     putString("token", null)
                     putBoolean("isLogin", false)

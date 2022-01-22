@@ -89,11 +89,15 @@ class RegisterFragment : Fragment() {
                     } else {
                         Toast.makeText(context, "Something went wrong...", Toast.LENGTH_SHORT)
                             .show()
+                        binding.progressBar.visibility = View.GONE
+                        binding.register.visibility = View.VISIBLE
                     }
                 }
 
                 override fun onFailure(call: Call<SignupResponse?>, t: Throwable) {
                     Toast.makeText(context, "Something went wrong...", Toast.LENGTH_SHORT).show()
+                    binding.progressBar.visibility = View.GONE
+                    binding.register.visibility = View.VISIBLE
                 }
             })
 

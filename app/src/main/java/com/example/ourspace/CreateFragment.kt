@@ -136,25 +136,27 @@ class CreateFragment : Fragment() {
                         .into(binding.usepfp);
 
                 } else {
-                    Toast.makeText(context, "Something went wrong...", Toast.LENGTH_SHORT).show()
                     editor.apply {
                         putString("token", null)
                         putBoolean("isLogin", false)
                         apply()
+
                     }
-                    findNavController().navigate(R.id.loginFragment)
+                    Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
+
                 }
             }
 
             override fun onFailure(call: Call<UserResponse?>, t: Throwable) {
-                Toast.makeText(context, "Something went wrong...", Toast.LENGTH_SHORT).show()
                 editor.apply {
                     putString("token", null)
                     putBoolean("isLogin", false)
                     apply()
+
                 }
-                findNavController().navigate(R.id.loginFragment)
-            }
+                Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
+                }
+
         })
     }
 
