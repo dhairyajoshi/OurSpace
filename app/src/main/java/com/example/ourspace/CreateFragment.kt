@@ -63,8 +63,7 @@ class CreateFragment : Fragment() {
         }
         binding.publish.setOnClickListener {
 
-            binding.progressBar.visibility = View.VISIBLE
-            binding.publish.visibility = View.GONE
+
 
             if (binding.caption.text.isNullOrEmpty()) {
                 Toast.makeText(context, "Please provide a caption", Toast.LENGTH_SHORT).show()
@@ -74,6 +73,8 @@ class CreateFragment : Fragment() {
                 Toast.makeText(context, "Please upload a photo", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+            binding.progressBar.visibility = View.VISIBLE
+            binding.publish.visibility = View.GONE
             val shredpref =
                 this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
             val token: String = shredpref.getString("token", null).toString()
