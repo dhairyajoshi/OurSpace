@@ -1,13 +1,9 @@
 package com.example.ourspace
 
 import android.Manifest
-import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
-import android.opengl.Visibility
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -56,12 +52,15 @@ class FeedFragment : Fragment() {
         swipeContainer = binding.swipeContainer
         // Setup refresh listener which triggers new data loading
         swipeContainer!!.setOnRefreshListener {
-            var shredpref =
+            binding.shimmer.startShimmer()
+            binding.shimmer.visibility = View.VISIBLE
+            binding.feedRV.visibility = View.GONE
+            val shredpref =
                 this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
-            var editor = shredpref.edit()
-            var token: String = shredpref.getString("token", null).toString()
-            var header = "Bearer $token"
-            var postResponse = ApiClient.userService.getPosts(header)
+            val editor = shredpref.edit()
+            val token: String = shredpref.getString("token", null).toString()
+            val header = "Bearer $token"
+            val postResponse = ApiClient.userService.getPosts(header)
 
             postResponse.enqueue(object : retrofit2.Callback<List<PostResponse>?> {
                 override fun onResponse(
@@ -69,6 +68,10 @@ class FeedFragment : Fragment() {
                     response: Response<List<PostResponse>?>
                 ) {
                     if (response.isSuccessful) {
+
+                        binding.shimmer.stopShimmer()
+                        binding.shimmer.visibility = View.GONE
+                        binding.feedRV.visibility = View.VISIBLE
 
                         adapter =
                             activity?.let {
@@ -91,9 +94,9 @@ class FeedFragment : Fragment() {
                 }
 
                 override fun onFailure(call: Call<List<PostResponse>?>, t: Throwable) {
-                    editor.apply{
-                        putString("token",null)
-                        putBoolean("isLogin",false)
+                    editor.apply {
+                        putString("token", null)
+                        putBoolean("isLogin", false)
                         apply()
 
                     }
@@ -111,7 +114,7 @@ class FeedFragment : Fragment() {
             R.color.loaderpink,
             R.color.loader_black,
 
-        )
+            )
 
         if (activity?.let {
                 ContextCompat.checkSelfPermission(
@@ -143,12 +146,13 @@ class FeedFragment : Fragment() {
         }
 
 
-        var shredpref= this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
-        var editor= shredpref.edit()
-        var token: String = shredpref.getString("token",null).toString()
-        var header= "Bearer $token"
-        var postResponse = ApiClient.userService.getPosts(header)
-        var userResponse = ApiClient.userService.getUser(header)
+        val shredpref =
+            this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
+        val editor = shredpref.edit()
+        val token: String = shredpref.getString("token", null).toString()
+        val header = "Bearer $token"
+        val postResponse = ApiClient.userService.getPosts(header)
+        val userResponse = ApiClient.userService.getUser(header)
 
         userResponse.enqueue(object : retrofit2.Callback<UserResponse?> {
             override fun onResponse(call: Call<UserResponse?>, response: Response<UserResponse?>) {
@@ -160,13 +164,16 @@ class FeedFragment : Fragment() {
                     binding.greetings.text = "${getGreetingMessage()}${firstName}"
                 } else {
 
-
                     editor.apply {
                         putString("token", null)
                         putBoolean("isLogin", false)
                         apply()
                     }
-                    Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "Couldn't fetch data, please login again",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
@@ -176,7 +183,11 @@ class FeedFragment : Fragment() {
                     putBoolean("isLogin", false)
                     apply()
                 }
-                Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    "Couldn't fetch data, please login again",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
 
@@ -193,12 +204,15 @@ class FeedFragment : Fragment() {
                     adapter =
                         activity?.let { response.body()?.let { it1 -> FeedRVAdapter(it, it1) } }!!
                     binding.feedRV.adapter = adapter
-                }
-                else{
-                    Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
-                    editor.apply{
-                        putString("token",null)
-                        putBoolean("isLogin",false)
+                } else {
+                    Toast.makeText(
+                        context,
+                        "Couldn't fetch data, please login again",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    editor.apply {
+                        putString("token", null)
+                        putBoolean("isLogin", false)
                         apply()
                     }
                 }
@@ -212,13 +226,19 @@ class FeedFragment : Fragment() {
                     apply()
 
                 }
-                Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    "Couldn't fetch data, please login again",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
-                                            grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         when (requestCode) {
             1 -> {
                 if (grantResults.isNotEmpty() && grantResults[0] ==

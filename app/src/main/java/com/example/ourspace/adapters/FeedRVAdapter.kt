@@ -14,12 +14,10 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.bumptech.glide.Glide
-import com.example.ourspace.FeedFragment
 import com.example.ourspace.R
 import com.example.ourspace.models.Utils
 import com.example.ourspace.retrofit.ApiClient
 import com.example.ourspace.retrofit.ApiClient.BASE_URL
-import com.example.ourspace.retrofit.LikeResponse
 import com.example.ourspace.retrofit.LikedResponse
 import com.example.ourspace.retrofit.PostResponse
 import retrofit2.Call
@@ -41,7 +39,7 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
         val like: ImageView = view.findViewById(R.id.like)
         val noOflikes: TextView = view.findViewById(R.id.noOfLikes)
         val dpHeart: ImageView = view.findViewById(R.id.dpHeart)
-        val drawable = dpHeart.drawable
+        val drawable: Drawable = dpHeart.drawable
 
         init {
             itemView.setOnClickListener(object : DoubleClickListener() {
@@ -55,10 +53,11 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
                         avd2 = drawable
                         avd2.start()
                     }
-                    var shredpref = context.getSharedPreferences("ourspace", Context.MODE_PRIVATE)
-                    var token: String = shredpref.getString("token", null).toString()
-                    var header = "Bearer $token"
-                    var likeResponse = ApiClient.userService.likePost(header, posts[position].id,"dt")
+                    val shredpref = context.getSharedPreferences("ourspace", Context.MODE_PRIVATE)
+                    val token: String = shredpref.getString("token", null).toString()
+                    val header = "Bearer $token"
+                    val likeResponse =
+                        ApiClient.userService.likePost(header, posts[position].id, "dt")
                     likeResponse.enqueue(object : Callback<LikedResponse?> {
                         override fun onResponse(
                             call: Call<LikedResponse?>,
@@ -67,7 +66,7 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
                             if (response.isSuccessful) {
 
                                 like.setImageResource(R.drawable.ic_favorite_fill)
-                                noOflikes.text=response.body()?.count.toString()
+                                noOflikes.text = response.body()?.count.toString()
 
                             }
                         }
@@ -102,15 +101,18 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
 //        holder.uploadTime.text = currentUploadTime
         holder.uploadTime.text = Utils.getTimeAgo(currentUploadTime)
         holder.caption.text = currentCaption
-        var shredpref = context.getSharedPreferences("ourspace", Context.MODE_PRIVATE)
-        var token: String = shredpref.getString("token", null).toString()
-        var header = "Bearer $token"
-        var likeResponse = ApiClient.userService.likePost(header, posts[position].id,"chk")
+        val shredpref = context.getSharedPreferences("ourspace", Context.MODE_PRIVATE)
+        val token: String = shredpref.getString("token", null).toString()
+        val header = "Bearer $token"
+        val likeResponse = ApiClient.userService.likePost(header, posts[position].id, "chk")
 
         likeResponse.enqueue(object : Callback<LikedResponse?> {
-            override fun onResponse(call: Call<LikedResponse?>, response: Response<LikedResponse?>) {
+            override fun onResponse(
+                call: Call<LikedResponse?>,
+                response: Response<LikedResponse?>
+            ) {
                 if (response.isSuccessful) {
-                    var res =
+                    val res =
                         if (response.body()?.msg.toString() == "1") R.drawable.ic_favorite_fill else R.drawable.ic_favorite_light
                     holder.like.setImageResource(res)
                 }
@@ -127,13 +129,13 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
         holder.image.adjustViewBounds
         Glide.with(context)
             .load("${BASE_URL}${posts[position].pic}")
-            .placeholder(R.drawable.ic_logo)
-            .into(holder.image);
+            .placeholder(R.color.background)
+            .into(holder.image)
         Glide.with(context)
             .load("${BASE_URL}${posts[position].pfp}")
-            .placeholder(R.drawable.ic_logo)
+            .placeholder(R.drawable.ic_avatars)
             .circleCrop()
-            .into(holder.profilePhoto);
+            .into(holder.profilePhoto)
 
         val bundle = Bundle()
         bundle.putString("username", posts[position].username)
@@ -160,7 +162,7 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
     }
 
     abstract class DoubleClickListener : View.OnClickListener {
-        var lastClickTime: Long = 0
+        private var lastClickTime: Long = 0
         override fun onClick(v: View?) {
             val clickTime = System.currentTimeMillis()
             if (clickTime - lastClickTime < DOUBLE_CLICK_TIME_DELTA) {
@@ -176,7 +178,7 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
         }
     }
 
-    fun likePost(
+    private fun likePost(
         position: Int,
         holder: ItemViewHolder? = null,
         like: ImageView? = null,
@@ -185,11 +187,11 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
         ) {
 
 
-        var id = posts[position].id
-        var shredpref = context.getSharedPreferences("ourspace", Context.MODE_PRIVATE)
-        var token: String = shredpref.getString("token", null).toString()
-        var header = "Bearer $token"
-        var likeResponse = ApiClient.userService.likePost(header, id,"like")
+        val id = posts[position].id
+        val shredpref = context.getSharedPreferences("ourspace", Context.MODE_PRIVATE)
+        val token: String = shredpref.getString("token", null).toString()
+        val header = "Bearer $token"
+        val likeResponse = ApiClient.userService.likePost(header, id, "like")
 
 
         likeResponse.enqueue(object : Callback<LikedResponse?> {
@@ -198,12 +200,12 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
                 response: Response<LikedResponse?>
             ) {
                 if (response.isSuccessful) {
-                    var res =
+                    val res =
                         if (response.body()?.msg.toString() == "1") R.drawable.ic_favorite_light else R.drawable.ic_favorite_fill
 
                     if (like == null) {
                         holder!!.like.setImageResource(res)
-                        holder!!.noOflikes.text = response.body()?.count.toString()
+                        holder.noOflikes.text = response.body()?.count.toString()
                     } else {
                         noOflikes?.text = response.body()?.count.toString()
                         like.setImageResource(res)

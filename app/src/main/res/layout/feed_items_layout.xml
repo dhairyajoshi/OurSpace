@@ -33,6 +33,7 @@
                     android:id="@+id/profilePhoto"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
+                    android:contentDescription="@string/posts_photo"
                     android:src="@drawable/ic_avatars" />
             </androidx.cardview.widget.CardView>
 
@@ -54,16 +55,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:fontFamily="@font/hkgrotesk_semibold"
-                android:text="Just Now"
                 android:textColor="@color/grey"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="@id/userName"
-                app:layout_constraintTop_toBottomOf="@id/userName" />
+                app:layout_constraintTop_toBottomOf="@id/userName"
+                tools:text="Just Now" />
 
             <ImageView
                 android:id="@+id/like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/likes"
                 android:src="@drawable/ic_favorite_light"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -73,7 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/hkgrotesk_medium"
-                android:text="0"
+                tools:text="0"
                 android:textColor="#F1F1F1"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="@+id/like"
@@ -96,8 +98,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                app:cardCornerRadius="15dp"
                 android:backgroundTint="@color/background"
+                app:cardCornerRadius="15dp"
                 app:layout_constraintDimensionRatio="1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -106,7 +108,8 @@
                 <ImageView
                     android:id="@+id/image"
                     android:layout_width="350dp"
-                    android:layout_height="350dp" />
+                    android:layout_height="350dp"
+                    android:contentDescription="@string/posts_photo" />
 
             </androidx.cardview.widget.CardView>
 
@@ -114,9 +117,10 @@
                 android:id="@+id/dpHeart"
                 android:layout_width="95dp"
                 android:layout_height="85dp"
+                android:alpha="0"
+                android:contentDescription="@string/double_tap_to_like"
                 android:elevation="50dp"
                 android:src="@drawable/heart"
-                android:alpha="0"
                 app:layout_constraintBottom_toBottomOf="@id/imageHolder"
                 app:layout_constraintEnd_toEndOf="@id/imageHolder"
                 app:layout_constraintStart_toStartOf="@id/imageHolder"

@@ -32,8 +32,8 @@ class CreateFragment : Fragment() {
 
     private var _binding: FragmentCreateBinding? = null
     private val binding get() = _binding!!
-    var reqFile:RequestBody?=null
-    var body: MultipartBody.Part?=null
+    var reqFile: RequestBody? = null
+    var body: MultipartBody.Part? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,12 +45,12 @@ class CreateFragment : Fragment() {
         binding.progressBar.visibility = View.GONE
         binding.publish.visibility = View.VISIBLE
 
-        val addImage = registerForActivityResult(
+        /*val addImage = registerForActivityResult(
             ActivityResultContracts.GetContent(),
             ActivityResultCallback { uri ->
                 binding.postImage.setImageURI(uri)
             }
-        )
+        )*/
 
         binding.addImage.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK)
@@ -66,23 +66,23 @@ class CreateFragment : Fragment() {
             binding.progressBar.visibility = View.VISIBLE
             binding.publish.visibility = View.GONE
 
-            if (binding.caption.text.isNullOrEmpty())
-            {
+            if (binding.caption.text.isNullOrEmpty()) {
                 Toast.makeText(context, "Please provide a caption", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            if(body==null)
-            {
+            if (body == null) {
                 Toast.makeText(context, "Please upload a photo", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            var shredpref = this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
-            var token: String = shredpref.getString("token", null).toString()
-            var header = "Bearer $token"
-            var cap=binding.caption.text.toString()
-            var data=MultipartBody.Part.createFormData("caption", cap)
+            val shredpref =
+                this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
+            val token: String = shredpref.getString("token", null).toString()
+            val header = "Bearer $token"
+            val cap = binding.caption.text.toString()
+            val data = MultipartBody.Part.createFormData("caption", cap)
 
-            var uploadResponse = ApiClient.userService.addPost(token =header, image = body!!, cap = data)
+            val uploadResponse =
+                ApiClient.userService.addPost(token = header, image = body!!, cap = data)
 
             uploadResponse.enqueue(object : Callback<LikeResponse?> {
                 override fun onResponse(
@@ -119,12 +119,13 @@ class CreateFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        var shredpref = this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
-        var editor = shredpref.edit()
-        var token: String = shredpref.getString("token", null).toString()
-        var header = "Bearer $token"
+        val shredpref =
+            this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
+        val editor = shredpref.edit()
+        val token: String = shredpref.getString("token", null).toString()
+        val header = "Bearer $token"
 
-        var userResponse = ApiClient.userService.getUser(header)
+        val userResponse = ApiClient.userService.getUser(header)
 
         userResponse.enqueue(object : Callback<UserResponse?> {
             override fun onResponse(call: Call<UserResponse?>, response: Response<UserResponse?>) {
@@ -132,8 +133,8 @@ class CreateFragment : Fragment() {
                     Glide.with(activity!!)
                         .load("${ApiClient.BASE_URL}${response.body()?.pfp}")
                         .circleCrop()
-                        .placeholder(R.drawable.ic_logo)
-                        .into(binding.usepfp);
+                        .placeholder(R.drawable.ic_avatars)
+                        .into(binding.usepfp)
 
                 } else {
                     Toast.makeText(context, "Something went wrong...", Toast.LENGTH_SHORT).show()

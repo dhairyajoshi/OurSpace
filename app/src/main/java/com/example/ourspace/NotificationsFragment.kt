@@ -11,13 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.bumptech.glide.Glide
-import com.example.ourspace.adapters.FeedRVAdapter
 import com.example.ourspace.adapters.NotificationsRVAdapter
 import com.example.ourspace.databinding.FragmentNotificationsBinding
 import com.example.ourspace.retrofit.ApiClient
 import com.example.ourspace.retrofit.NotificationResponse
-import com.example.ourspace.retrofit.PostResponse
 import com.example.ourspace.retrofit.UserResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -42,13 +39,13 @@ class NotificationsFragment : Fragment() {
         binding.shimmer.startShimmer()
         binding.notificationsRV.visibility = View.GONE
 
-        var shredpref =
+        val shredpref =
             this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
-        var editor = shredpref.edit()
-        var token: String = shredpref.getString("token", null).toString()
-        var header = "Bearer $token"
+        val editor = shredpref.edit()
+        val token: String = shredpref.getString("token", null).toString()
+        val header = "Bearer $token"
 
-        var userResponse = ApiClient.userService.getUser(header)
+        val userResponse = ApiClient.userService.getUser(header)
 
         userResponse.enqueue(object : Callback<UserResponse?> {
             override fun onResponse(call: Call<UserResponse?>, response: Response<UserResponse?>) {
@@ -87,7 +84,7 @@ class NotificationsFragment : Fragment() {
             }
         })
 
-        var notificationResponse = ApiClient.userService.getNotifs(header)
+        val notificationResponse = ApiClient.userService.getNotifs(header)
         notificationResponse.enqueue(object : Callback<List<NotificationResponse>?> {
             override fun onResponse(
                 call: Call<List<NotificationResponse>?>,
@@ -97,7 +94,7 @@ class NotificationsFragment : Fragment() {
                     binding.shimmer.stopShimmer()
                     binding.shimmer.visibility = View.GONE
                     binding.notificationsRV.visibility = View.VISIBLE
-                    var adapter = context?.let {
+                    val adapter = context?.let {
                         response.body()?.let { it1 ->
                             NotificationsRVAdapter(
                                 it,
@@ -155,13 +152,15 @@ class NotificationsFragment : Fragment() {
         swipeContainer = binding.swipeContainer
         // Setup refresh listener which triggers new data loading
         swipeContainer!!.setOnRefreshListener {
-            var shredpref =
+            binding.shimmer.startShimmer()
+            binding.notificationsRV.visibility = View.GONE
+            val shredpref =
                 this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
-            var editor = shredpref.edit()
-            var token: String = shredpref.getString("token", null).toString()
-            var header = "Bearer $token"
+            val editor = shredpref.edit()
+            val token: String = shredpref.getString("token", null).toString()
+            val header = "Bearer $token"
 
-            var notificationResponse = ApiClient.userService.getNotifs(header)
+            val notificationResponse = ApiClient.userService.getNotifs(header)
             notificationResponse.enqueue(object : Callback<List<NotificationResponse>?> {
                 override fun onResponse(
                     call: Call<List<NotificationResponse>?>,
@@ -169,7 +168,11 @@ class NotificationsFragment : Fragment() {
                 ) {
                     if (response.isSuccessful) {
 
-                        var adapter = context?.let {
+                        binding.shimmer.stopShimmer()
+                        binding.shimmer.visibility = View.GONE
+                        binding.notificationsRV.visibility = View.VISIBLE
+
+                        val adapter = context?.let {
                             response.body()?.let { it1 ->
                                 NotificationsRVAdapter(
                                     it,

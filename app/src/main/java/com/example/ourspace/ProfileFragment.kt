@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
-import android.text.method.Touch.onTouchEvent
 import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -14,8 +13,6 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.ourspace.MainActivity.Companion.PICK_CFP
 import com.example.ourspace.MainActivity.Companion.PICK_IMAGE
@@ -24,11 +21,9 @@ import com.example.ourspace.retrofit.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.http.Part
 import java.io.File
 
 
@@ -51,7 +46,7 @@ class ProfileFragment : Fragment() {
         binding.updateProfileShimmer.visibility = View.GONE
 
 
-        val setProfile = registerForActivityResult(
+        /*val setProfile = registerForActivityResult(
             ActivityResultContracts.GetContent(),
             ActivityResultCallback { uri ->
                 binding.profilePhoto.setImageURI(uri)
@@ -62,7 +57,7 @@ class ProfileFragment : Fragment() {
             ActivityResultCallback { uri ->
                 binding.coverPhoto.setImageURI(uri)
             }
-        )
+        )*/
         binding.setCoverPhoto.setOnClickListener {
             binding.updateCoverShimmer.startShimmer()
             binding.updateCoverShimmer.visibility = View.VISIBLE
@@ -107,14 +102,14 @@ class ProfileFragment : Fragment() {
             val file = File(filePath)
             val reqFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
             val body = MultipartBody.Part.createFormData("pfp", file.name, reqFile)
-            var shredpref =
+            val shredpref =
                 this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
-            var editor = shredpref.edit()
-            var token: String = shredpref.getString("token", null).toString()
-            var header = "Bearer $token"
+            val editor = shredpref.edit()
+            val token: String = shredpref.getString("token", null).toString()
+            val header = "Bearer $token"
 
 
-            var uploadResponse = ApiClient.userService.updatePfp(header, body)
+            val uploadResponse = ApiClient.userService.updatePfp(header, body)
             uploadResponse.enqueue(object : Callback<UserResponse?> {
                 override fun onResponse(
                     call: Call<UserResponse?>,
@@ -125,14 +120,14 @@ class ProfileFragment : Fragment() {
                         context?.let {
                             Glide.with(it)
                                 .load("${ApiClient.BASE_URL}${response.body()?.pfp}")
-                                .placeholder(R.drawable.ic_logo)
+                                .placeholder(R.drawable.ic_avatars)
                                 .circleCrop()
                                 .into(binding.profilePhoto)
 
                             // <-------------profile shimmers here--------------->
                             binding.updateProfileShimmer.stopShimmer()
                             binding.updateProfileShimmer.visibility = View.GONE
-                        };
+                        }
                     } else {
 
                         editor.apply {
@@ -181,14 +176,14 @@ class ProfileFragment : Fragment() {
             val file = File(filePath)
             val reqFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
             val body = MultipartBody.Part.createFormData("cfp", file.name, reqFile)
-            var shredpref =
+            val shredpref =
                 this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
-            var editor = shredpref.edit()
-            var token: String = shredpref.getString("token", null).toString()
-            var header = "Bearer $token"
+            val editor = shredpref.edit()
+            val token: String = shredpref.getString("token", null).toString()
+            val header = "Bearer $token"
 
 
-            var uploadResponse = ApiClient.userService.updateCfp(header, body)
+            val uploadResponse = ApiClient.userService.updateCfp(header, body)
             uploadResponse.enqueue(object : Callback<UserResponse?> {
                 override fun onResponse(
                     call: Call<UserResponse?>,
@@ -199,9 +194,9 @@ class ProfileFragment : Fragment() {
                         context?.let {
                             Glide.with(it)
                                 .load("${ApiClient.BASE_URL}${response.body()?.cfp}")
-                                .placeholder(R.drawable.ic_logo)
+                                .placeholder(R.drawable.cover)
                                 .into(binding.coverPhoto)
-                        };
+                        }
 
                         // <------------- cover shimmers here--------------->
                         binding.updateCoverShimmer.stopShimmer()
@@ -241,21 +236,18 @@ class ProfileFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        var shredpref =
+        val shredpref =
             this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
-        var editor = shredpref.edit()
-        var token: String = shredpref.getString("token", null).toString()
-        var header = "Bearer $token"
+        val editor = shredpref.edit()
+        val token: String = shredpref.getString("token", null).toString()
+        val header = "Bearer $token"
 
 
-        var userResponse = ApiClient.userService.getUser(header)
+        val userResponse = ApiClient.userService.getUser(header)
 
         userResponse.enqueue(object : Callback<UserResponse?> {
             override fun onResponse(call: Call<UserResponse?>, response: Response<UserResponse?>) {
                 if (response.isSuccessful) {
-
-                    binding.coverShimmer.stopShimmer()
-                    binding.coverShimmer.visibility = View.GONE
 
                     binding.userName.text = response.body()?.username.toString()
                     binding.Name.text = response.body()?.first_name.toString()
@@ -264,15 +256,19 @@ class ProfileFragment : Fragment() {
                     binding.noOfLikes.text = response.body()?.likes.toString()
                     Glide.with(activity!!)
                         .load("${ApiClient.BASE_URL}${response.body()?.pfp}")
-                        .placeholder(R.drawable.ic_logo)
-                        .into(binding.profilePhoto);
+                        .placeholder(R.drawable.ic_avatars)
+                        .into(binding.profilePhoto)
 
                     Glide.with(activity!!)
                         .load("${ApiClient.BASE_URL}${response.body()?.cfp}")
-                        .placeholder(R.drawable.ic_logo)
-                        .into(binding.coverPhoto);
+                        .placeholder(R.drawable.cover)
+                        .into(binding.coverPhoto)
 
                     // <-------------both shimmers here--------------->
+
+                    binding.coverShimmer.stopShimmer()
+                    binding.coverShimmer.visibility = View.GONE
+
                 } else {
                     editor.apply {
                         putString("token", null)
@@ -308,11 +304,11 @@ class ProfileFragment : Fragment() {
         val builder = AlertDialog.Builder(requireActivity())
         val dialogLayout = requireActivity().layoutInflater.inflate(R.layout.edit_text_dialog, null)
         val editDetails = dialogLayout.findViewById<EditText>(R.id.editDetails)
-        var shredpref =
+        val shredpref =
             this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
-        var editor = shredpref.edit()
-        var token: String = shredpref.getString("token", null).toString()
-        var header = "Bearer $token"
+        val editor = shredpref.edit()
+        val token: String = shredpref.getString("token", null).toString()
+        val header = "Bearer $token"
         with(builder) {
             setTitle(title)
             setPositiveButton("Save") { _, _ ->
@@ -324,9 +320,9 @@ class ProfileFragment : Fragment() {
                         binding.bio.text = editDetails.text.toString()
                     }
                 }
-                var user = UserUpdate(binding.Name.text.toString(), binding.bio.text.toString())
+                val user = UserUpdate(binding.Name.text.toString(), binding.bio.text.toString())
 
-                var updateResponse = ApiClient.userService.updateUser(header, user)
+                val updateResponse = ApiClient.userService.updateUser(header, user)
                 updateResponse.enqueue(object : Callback<LikeResponse?> {
                     override fun onResponse(
                         call: Call<LikeResponse?>,

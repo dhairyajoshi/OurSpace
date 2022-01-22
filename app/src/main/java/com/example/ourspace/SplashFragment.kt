@@ -23,16 +23,16 @@ class SplashFragment : Fragment() {
     ): View? {
 
         Handler(Looper.getMainLooper()).postDelayed({
-            var shredpref= this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
+            val shredpref= this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
             var editor=shredpref.edit()
-            var token: String = shredpref.getString("token",null).toString()
+            val token: String = shredpref.getString("token",null).toString()
             if(token==null)
             {
                 findNavController().navigate(R.id.action_splashFragment_to_registerFragment)
             }
-            var header= "Bearer $token"
+            val header= "Bearer $token"
 
-            var loginResponse = ApiClient.userService.getUser(header)
+            val loginResponse = ApiClient.userService.getUser(header)
 
             loginResponse.enqueue(object : Callback<UserResponse?> {
                 override fun onResponse(call: Call<UserResponse?>, response: Response<UserResponse?>) {

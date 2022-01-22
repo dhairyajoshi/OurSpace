@@ -30,22 +30,22 @@ class LoginFragment : Fragment() {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         binding.progressBar.visibility = View.GONE
         binding.login.visibility = View.VISIBLE
-        var shredpref =
+        val shredpref =
             this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
-        var editor = shredpref.edit()
+        val editor = shredpref.edit()
         binding.login.setOnClickListener {
 
             binding.progressBar.visibility = View.VISIBLE
             binding.login.visibility = View.GONE
             if (binding.UserName.text != null && binding.Password.text != null) {
-                var username = binding.UserName.text.toString().trim()
-                var password = binding.Password.text.toString().trim()
+                val username = binding.UserName.text.toString().trim()
+                val password = binding.Password.text.toString().trim()
 
-                var user = UserLogin(username, password)
+                val user = UserLogin(username, password)
 
                 Log.d("login", user.toString())
 
-                var loginResponse = ApiClient.userService.loginUser(user)
+                val loginResponse = ApiClient.userService.loginUser(user)
 
                 loginResponse.enqueue(object : Callback<LoginResponse?> {
                     override fun onResponse(
@@ -73,7 +73,8 @@ class LoginFragment : Fragment() {
                     override fun onFailure(call: Call<LoginResponse?>, t: Throwable) {
                         binding.progressBar.visibility = View.GONE
                         binding.login.visibility = View.VISIBLE
-                        Toast.makeText(context, "Something went wrong...", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Something went wrong...", Toast.LENGTH_SHORT)
+                            .show()
                     }
 
                 })

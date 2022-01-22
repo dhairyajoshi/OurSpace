@@ -4,9 +4,6 @@ import android.app.Activity
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import android.os.Bundle
 import android.view.View
-import com.example.ourspace.R
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
-import org.json.JSONArray
 
 class TimelineActivity : Activity() {
     private var swipeContainer: SwipeRefreshLayout? = null
@@ -29,5 +26,5 @@ class TimelineActivity : Activity() {
             android.R.color.holo_red_light
         )
     }
-    
+
 }

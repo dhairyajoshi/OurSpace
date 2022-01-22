@@ -27,7 +27,8 @@
         android:background="@android:color/transparent"
         android:src="@drawable/ic_notifications"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/notifications" />
 
     <View
         android:id="@+id/separator"
@@ -42,9 +43,9 @@
         app:layout_constraintTop_toBottomOf="@+id/greetings" />
 
     <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:id="@+id/shimmer"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,13 +56,19 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <include layout="@layout/shimmer_layout"/>
-            <include layout="@layout/shimmer_layout"/>
-            <include layout="@layout/shimmer_layout"/>
-            <include layout="@layout/shimmer_layout"/>
-            <include layout="@layout/shimmer_layout"/>
-            <include layout="@layout/shimmer_layout"/>
-            <include layout="@layout/shimmer_layout"/>
+            <include layout="@layout/shimmer_layout" />
+
+            <include layout="@layout/shimmer_layout" />
+
+            <include layout="@layout/shimmer_layout" />
+
+            <include layout="@layout/shimmer_layout" />
+
+            <include layout="@layout/shimmer_layout" />
+
+            <include layout="@layout/shimmer_layout" />
+
+            <include layout="@layout/shimmer_layout" />
 
         </LinearLayout>
 

@@ -10,12 +10,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/hkgrotesk_medium"
-        android:hint="Enter Here..."
+        android:hint="@string/enter_here"
         android:textColor="#2e8af6"
         android:textColorHint="#332e8af6"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:autofillHints="false"
+        android:inputType="text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

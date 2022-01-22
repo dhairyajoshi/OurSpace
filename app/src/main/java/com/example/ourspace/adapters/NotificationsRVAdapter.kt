@@ -36,9 +36,9 @@ class NotificationsRVAdapter(
 //        holder.time.text = currentItem.date
         Glide.with(context)
             .load("${ApiClient.BASE_URL}${currentItem.pic}")
-            .placeholder(R.drawable.ic_logo)
+            .placeholder(R.drawable.ic_avatars)
             .circleCrop()
-            .into(holder.userpfp);
+            .into(holder.userpfp)
 
     }
 
