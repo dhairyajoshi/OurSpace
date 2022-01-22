@@ -21,72 +21,74 @@ import retrofit2.Response
 
 class RegisterFragment : Fragment() {
 
-    private var _binding:FragmentRegisterBinding?=null
+    private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentRegisterBinding.inflate(inflater,container,false)
+        _binding = FragmentRegisterBinding.inflate(inflater, container, false)
 
-        var shredpref= this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
-        var editor=shredpref.edit()
-        var token: String = shredpref.getString("token",null).toString()
-        var header= "Bearer $token"
+        binding.progressBar.visibility = View.GONE
+        binding.register.visibility = View.VISIBLE
+
+        var shredpref =
+            this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
+        var editor = shredpref.edit()
+        var token: String = shredpref.getString("token", null).toString()
+        var header = "Bearer $token"
 
 
 
 
         binding.register.setOnClickListener {
-            if(binding.userName.text.isNullOrEmpty())
-            {
-                binding.userName.error="username cannot be empty!"
+
+            binding.progressBar.visibility = View.VISIBLE
+            binding.register.visibility = View.GONE
+
+            if (binding.userName.text.isNullOrEmpty()) {
+                binding.userName.error = "username cannot be empty!"
                 return@setOnClickListener
             }
-            if(binding.fullName.text.isNullOrEmpty())
-            {
-                binding.fullName.error="full name cannot be empty!"
+            if (binding.fullName.text.isNullOrEmpty()) {
+                binding.fullName.error = "full name cannot be empty!"
                 return@setOnClickListener
             }
-            if(binding.Password.text.toString().length<8)
-            {
-                binding.Password.error="Password must have 8 characters"
+            if (binding.Password.text.toString().length < 8) {
+                binding.Password.error = "Password must have 8 characters"
                 return@setOnClickListener
             }
-            if(! binding.Password.text.toString().equals(binding.ConfirmPassword.text.toString()))
-            {
-                binding.ConfirmPassword.error="Both passwords must not be empty and must match!"
+            if (!binding.Password.text.toString().equals(binding.ConfirmPassword.text.toString())) {
+                binding.ConfirmPassword.error = "Both passwords must not be empty and must match!"
                 return@setOnClickListener
             }
 
-            var username= binding.userName.text.toString()
-            var name=binding.fullName.text.toString()
-            var password=binding.Password.text.toString()
+            var username = binding.userName.text.toString()
+            var name = binding.fullName.text.toString()
+            var password = binding.Password.text.toString()
 
-            var user= UserRegister(username,name,password)
+            var user = UserRegister(username, name, password)
 
-            var loginResponse= ApiClient.userService.registerUser(user)
+            var loginResponse = ApiClient.userService.registerUser(user)
 
             loginResponse.enqueue(object : Callback<SignupResponse?> {
                 override fun onResponse(
                     call: Call<SignupResponse?>,
                     response: Response<SignupResponse?>
                 ) {
-                    if(response.isSuccessful)
-                    {
-                        editor.apply{
-                            if (response.body()!=null) {
+                    if (response.isSuccessful) {
+                        editor.apply {
+                            if (response.body() != null) {
                                 putString("token", response.body()?.token.toString())
                                 putBoolean("isLogin", true)
                                 apply()
                             }
                         }
                         findNavController().navigate(R.id.homeFragment)
-                    }
-                    else
-                    {
-                        Toast.makeText(context, "Something went wrong...", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, "Something went wrong...", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
 
@@ -102,7 +104,6 @@ class RegisterFragment : Fragment() {
 
         return binding.root
     }
-
 
 
     override fun onDestroyView() {

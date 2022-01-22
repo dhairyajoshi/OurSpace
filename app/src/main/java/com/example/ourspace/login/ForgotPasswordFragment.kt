@@ -20,8 +20,12 @@ class ForgotPasswordFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentForgotPasswordBinding.inflate(inflater,container,false)
+        binding.progressBar.visibility = View.GONE
+        binding.savePassword.visibility = View.VISIBLE
 
         binding.savePassword.setOnClickListener {
+            binding.progressBar.visibility = View.VISIBLE
+            binding.savePassword.visibility = View.GONE
             findNavController().navigate(R.id.action_forgotPasswordFragment_to_loginFragment)
         }
 

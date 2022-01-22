@@ -29,10 +29,10 @@
         android:text="CREATE"
         android:textColor="@color/white"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@id/publish"
+        app:layout_constraintBottom_toBottomOf="@id/discard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/publish" />
+        app:layout_constraintTop_toTopOf="@id/discard" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/publish"
@@ -60,11 +60,33 @@
         <ImageView
             android:id="@+id/postImage"
             android:layout_width="300dp"
-            android:scaleType="centerCrop"
+            android:scaleType="fitCenter"
             android:layout_height="300dp"
             android:src="@color/background" />
 
     </androidx.cardview.widget.CardView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_marginEnd="5dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:indeterminate="true"
+        android:indeterminateTintMode="src_atop"
+        android:indeterminateTint="@color/pink"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/discard"
+        app:layout_constraintBottom_toBottomOf="@id/discard"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="*Image Preview*"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/shimmer_color"
+        app:layout_constraintEnd_toEndOf="@id/imageHolder"
+        app:layout_constraintTop_toBottomOf="@+id/imageHolder"
+        app:layout_constraintStart_toStartOf="@id/imageHolder"/>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/dpHolder"

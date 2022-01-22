@@ -6,12 +6,43 @@
     android:layout_height="match_parent"
     tools:context=".ProfileFragment">
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/coverShimmer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <include layout="@layout/cover_shimmer" />
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/updateCoverShimmer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="10dp">
+
+        <include layout="@layout/update_cover_shimmer" />
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/updateProfileShimmer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="30dp">
+
+        <include layout="@layout/update_profile_shimmer" />
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
     <ImageView
         android:id="@+id/coverPhoto"
         android:layout_width="0dp"
         android:layout_height="170dp"
-        android:src="@drawable/ic_logo_bg"
         android:scaleType="centerCrop"
+        android:src="@drawable/ic_logo_bg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,6 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="105dp"
         app:cardCornerRadius="65dp"
+        android:translationZ="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/coverPhoto"
@@ -106,6 +138,7 @@
         android:layout_marginTop="152dp"
         android:layout_marginEnd="30dp"
         android:background="@android:color/transparent"
+        android:elevation="30dp"
         android:src="@drawable/ic_camera"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -115,7 +148,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        android:elevation="20dp"
+        android:elevation="30dp"
         android:src="@drawable/ic_camera"
         app:layout_constraintBottom_toBottomOf="@+id/dpHolder"
         app:layout_constraintEnd_toEndOf="@+id/dpHolder" />
@@ -141,14 +174,14 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginTop="35dp"
+        android:drawablePadding="10dp"
         android:fontFamily="@font/hkgrotesk_regular"
         android:text="Name"
-        android:drawablePadding="10dp"
         android:textColor="@color/pink"
         android:textSize="14sp"
+        app:drawableEndCompat="@drawable/ic_edit"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/separator"
-        app:drawableEndCompat="@drawable/ic_edit" />
+        app:layout_constraintTop_toBottomOf="@+id/separator" />
 
     <TextView
         android:id="@+id/Name"
@@ -197,75 +230,75 @@
         android:id="@+id/recBG"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:src="@drawable/ic_rectangle"
         android:layout_marginStart="70dp"
         android:layout_marginTop="40dp"
-        app:layout_constraintTop_toBottomOf="@+id/bio"
-        app:layout_constraintStart_toStartOf="parent"/>
+        android:src="@drawable/ic_rectangle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bio" />
 
     <TextView
         android:id="@+id/postsText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/hkgrotesk_medium"
         android:text="Posts"
         android:textColor="@color/pink"
         android:textSize="12sp"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/hkgrotesk_medium"
-        app:layout_constraintTop_toTopOf="@id/recBG"
+        app:layout_constraintEnd_toEndOf="@id/recBG"
         app:layout_constraintStart_toStartOf="@id/recBG"
-        app:layout_constraintEnd_toEndOf="@id/recBG"/>
+        app:layout_constraintTop_toTopOf="@id/recBG" />
 
     <TextView
         android:id="@+id/noOfPosts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/hkgrotesk_semibold"
         android:text="0"
         android:textColor="@color/blue"
         android:textSize="26sp"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/hkgrotesk_semibold"
         app:layout_constraintBottom_toBottomOf="@id/recBG"
-        app:layout_constraintTop_toTopOf="@id/recBG"
+        app:layout_constraintEnd_toEndOf="@id/recBG"
         app:layout_constraintStart_toStartOf="@id/recBG"
-        app:layout_constraintEnd_toEndOf="@id/recBG"/>
+        app:layout_constraintTop_toTopOf="@id/recBG" />
 
     <ImageView
         android:id="@+id/recBG2"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:src="@drawable/ic_rectangle"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="70dp"
-        app:layout_constraintTop_toBottomOf="@+id/bio"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:src="@drawable/ic_rectangle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bio" />
 
     <TextView
         android:id="@+id/likesText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/hkgrotesk_medium"
         android:text="Likes"
         android:textColor="@color/pink"
         android:textSize="12sp"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/hkgrotesk_medium"
-        app:layout_constraintTop_toTopOf="@id/recBG2"
+        app:layout_constraintEnd_toEndOf="@id/recBG2"
         app:layout_constraintStart_toStartOf="@id/recBG2"
-        app:layout_constraintEnd_toEndOf="@id/recBG2"/>
+        app:layout_constraintTop_toTopOf="@id/recBG2" />
 
     <TextView
         android:id="@+id/noOfLikes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/hkgrotesk_semibold"
         android:text="0"
         android:textColor="@color/blue"
         android:textSize="26sp"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/hkgrotesk_semibold"
         app:layout_constraintBottom_toBottomOf="@id/recBG2"
-        app:layout_constraintTop_toTopOf="@id/recBG2"
+        app:layout_constraintEnd_toEndOf="@id/recBG2"
         app:layout_constraintStart_toStartOf="@id/recBG2"
-        app:layout_constraintEnd_toEndOf="@id/recBG2"/>
+        app:layout_constraintTop_toTopOf="@id/recBG2" />
 
     <!--<TextView
         android:id="@+id/GenderID"

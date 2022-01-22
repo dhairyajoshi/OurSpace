@@ -6,6 +6,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".UserProfileFragment">
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/coverShimmer"
+        android:elevation="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <include layout="@layout/cover_shimmer"/>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
     <ImageView
         android:id="@+id/coverPhoto"
         android:layout_width="0dp"
@@ -43,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/hkgrotesk_bold"
-        android:text="user_name"
+        tools:text="user_name"
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -157,7 +165,7 @@
         android:id="@+id/noOfPosts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="24"
+        tools:text="24"
         android:textColor="@color/blue"
         android:textSize="26sp"
         android:layout_marginTop="5dp"
@@ -194,7 +202,7 @@
         android:id="@+id/noOfLikes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="132"
+        tools:text="132"
         android:textColor="@color/blue"
         android:textSize="26sp"
         android:layout_marginTop="5dp"

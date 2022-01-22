@@ -20,26 +20,30 @@ import retrofit2.Response
 
 class LoginFragment : Fragment() {
 
-    private var _binding:FragmentLoginBinding?=null
+    private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentLoginBinding.inflate(inflater,container,false)
-        var shredpref= this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
-        var editor= shredpref.edit()
+        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        binding.progressBar.visibility = View.GONE
+        binding.login.visibility = View.VISIBLE
+        var shredpref =
+            this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
+        var editor = shredpref.edit()
         binding.login.setOnClickListener {
 
-            if (binding.UserName.text!=null && binding.Password.text!=null )
-            {
+            binding.progressBar.visibility = View.VISIBLE
+            binding.login.visibility = View.GONE
+            if (binding.UserName.text != null && binding.Password.text != null) {
                 var username = binding.UserName.text.toString()
-                var password= binding.Password.text.toString()
+                var password = binding.Password.text.toString()
 
-                var user= UserLogin(username,password)
+                var user = UserLogin(username, password)
 
-                Log.d("login",user.toString())
+                Log.d("login", user.toString())
 
                 var loginResponse = ApiClient.userService.loginUser(user)
 
@@ -48,20 +52,18 @@ class LoginFragment : Fragment() {
                         call: Call<LoginResponse?>,
                         response: Response<LoginResponse?>
                     ) {
-                        if(response.isSuccessful && response.body()?.token!=null)
-                        {
-                            Log.d("login",response.body().toString())
-                            editor.apply{
-                                putString("token",response.body()?.token.toString())
-                                putBoolean("isLogin",true)
+                        if (response.isSuccessful && response.body()?.token != null) {
+                            Log.d("login", response.body().toString())
+                            editor.apply {
+                                putString("token", response.body()?.token.toString())
+                                putBoolean("isLogin", true)
                                 apply()
                             }
 
                             findNavController().navigate(R.id.homeFragment)
-                        }
-                        else
-                        {
-                            Toast.makeText(context, "Invalid Credentials", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(context, "Invalid Credentials", Toast.LENGTH_SHORT)
+                                .show()
                         }
 
                     }

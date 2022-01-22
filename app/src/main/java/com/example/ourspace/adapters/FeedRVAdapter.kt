@@ -47,10 +47,10 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
                 override fun onDoubleClick(v: View?) {
                     val position = adapterPosition
                     dpHeart.alpha = 0.8f
-                    if (drawable is AnimatedVectorDrawableCompat){
+                    if (drawable is AnimatedVectorDrawableCompat) {
                         avd = drawable
                         avd.start()
-                    }else if (drawable is AnimatedVectorDrawable){
+                    } else if (drawable is AnimatedVectorDrawable) {
                         avd2 = drawable
                         avd2.start()
                     }
@@ -59,10 +59,13 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
                     var header = "Bearer $token"
                     var likeResponse = ApiClient.userService.isLiked(header, posts[position].id)
                     likeResponse.enqueue(object : Callback<LikeResponse?> {
-                        override fun onResponse(call: Call<LikeResponse?>, response: Response<LikeResponse?>) {
+                        override fun onResponse(
+                            call: Call<LikeResponse?>,
+                            response: Response<LikeResponse?>
+                        ) {
                             if (response.isSuccessful) {
 
-                                if (response.body()?.msg.toString() == "0"){
+                                if (response.body()?.msg.toString() == "0") {
                                     like.setImageResource(R.drawable.ic_favorite_fill)
                                     likePost(position, like = like, noOflikes = noOflikes)
 
@@ -72,7 +75,8 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
                         }
 
                         override fun onFailure(call: Call<LikeResponse?>, t: Throwable) {
-                            Toast.makeText(context, "something went wrong...", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "something went wrong...", Toast.LENGTH_SHORT)
+                                .show()
                         }
                     })
 
@@ -179,7 +183,7 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
         like: ImageView? = null,
         noOflikes: TextView? = null,
 
-    ) {
+        ) {
 
 
         var id = posts[position].id
@@ -195,7 +199,8 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
                 response: Response<LikedResponse?>
             ) {
                 if (response.isSuccessful) {
-                    var res = if (response.body()?.msg.toString() == "1") R.drawable.ic_favorite_light else R.drawable.ic_favorite_fill
+                    var res =
+                        if (response.body()?.msg.toString() == "1") R.drawable.ic_favorite_light else R.drawable.ic_favorite_fill
 
                     if (like == null) {
                         holder!!.like.setImageResource(res)

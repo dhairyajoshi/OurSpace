@@ -13,13 +13,17 @@ import com.example.ourspace.retrofit.ApiClient
 import com.example.ourspace.retrofit.NotificationResponse
 
 
-class NotificationsRVAdapter(var context: Context, private val notificationlist: List<NotificationResponse>) :
+class NotificationsRVAdapter(
+    var context: Context,
+    private val notificationlist: List<NotificationResponse>
+) :
     RecyclerView.Adapter<NotificationsRVAdapter.MyViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView =
-            LayoutInflater.from(parent.context).inflate(R.layout.notifications_item_layout, parent, false)
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.notifications_item_layout, parent, false)
         return MyViewHolder(itemView)
     }
 

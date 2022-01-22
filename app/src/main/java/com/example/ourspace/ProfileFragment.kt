@@ -45,6 +45,11 @@ class ProfileFragment : Fragment() {
 
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
 
+        binding.coverShimmer.startShimmer()
+        binding.coverShimmer.visibility = View.VISIBLE
+        binding.updateCoverShimmer.visibility = View.GONE
+        binding.updateProfileShimmer.visibility = View.GONE
+
 
         val setProfile = registerForActivityResult(
             ActivityResultContracts.GetContent(),
@@ -59,6 +64,8 @@ class ProfileFragment : Fragment() {
             }
         )
         binding.setCoverPhoto.setOnClickListener {
+            binding.updateCoverShimmer.startShimmer()
+            binding.updateCoverShimmer.visibility = View.VISIBLE
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             startActivityForResult(intent, PICK_CFP)
@@ -86,28 +93,34 @@ class ProfileFragment : Fragment() {
             val selectedImage = data!!.data
             val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
             val cursor =
-                requireActivity().contentResolver.query(selectedImage!!, filePathColumn, null, null, null) ?: return
+                requireActivity().contentResolver.query(
+                    selectedImage!!,
+                    filePathColumn,
+                    null,
+                    null,
+                    null
+                ) ?: return
             cursor.moveToFirst()
             val columnIndex = cursor.getColumnIndex(filePathColumn[0])
             val filePath = cursor.getString(columnIndex)
             cursor.close()
             val file = File(filePath)
-            val reqFile=RequestBody.create("image/*".toMediaTypeOrNull(),file)
+            val reqFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
             val body = MultipartBody.Part.createFormData("pfp", file.name, reqFile)
-            var shredpref= this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
-            var editor= shredpref.edit()
-            var token: String = shredpref.getString("token",null).toString()
-            var header= "Bearer $token"
+            var shredpref =
+                this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
+            var editor = shredpref.edit()
+            var token: String = shredpref.getString("token", null).toString()
+            var header = "Bearer $token"
 
 
-            var uploadResponse= ApiClient.userService.updatePfp(header,body)
+            var uploadResponse = ApiClient.userService.updatePfp(header, body)
             uploadResponse.enqueue(object : Callback<UserResponse?> {
                 override fun onResponse(
                     call: Call<UserResponse?>,
                     response: Response<UserResponse?>
                 ) {
-                    if (response.isSuccessful)
-                    {
+                    if (response.isSuccessful) {
 
                         context?.let {
                             Glide.with(it)
@@ -117,58 +130,71 @@ class ProfileFragment : Fragment() {
                                 .into(binding.profilePhoto)
 
                             // <-------------profile shimmers here--------------->
+                            binding.updateProfileShimmer.stopShimmer()
+                            binding.updateProfileShimmer.visibility = View.GONE
                         };
-                    }
-                    else
-                    {
+                    } else {
 
-                        editor.apply{
-                            putString("token",null)
-                            putBoolean("isLogin",false)
+                        editor.apply {
+                            putString("token", null)
+                            putBoolean("isLogin", false)
                             apply()
 
                         }
-                        Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            context,
+                            "Couldn't fetch data, please login again",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
 
                 override fun onFailure(call: Call<UserResponse?>, t: Throwable) {
-                    editor.apply{
-                        putString("token",null)
-                        putBoolean("isLogin",false)
+                    editor.apply {
+                        putString("token", null)
+                        putBoolean("isLogin", false)
                         apply()
 
                     }
-                    Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "Couldn't fetch data, please login again",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             })
-        }
-        else if (requestCode == PICK_CFP && resultCode == AppCompatActivity.RESULT_OK) {
+        } else if (requestCode == PICK_CFP && resultCode == AppCompatActivity.RESULT_OK) {
             val selectedImage = data!!.data
             val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
             val cursor =
-                requireActivity().contentResolver.query(selectedImage!!, filePathColumn, null, null, null) ?: return
+                requireActivity().contentResolver.query(
+                    selectedImage!!,
+                    filePathColumn,
+                    null,
+                    null,
+                    null
+                ) ?: return
             cursor.moveToFirst()
             val columnIndex = cursor.getColumnIndex(filePathColumn[0])
             val filePath = cursor.getString(columnIndex)
             cursor.close()
             val file = File(filePath)
-            val reqFile=RequestBody.create("image/*".toMediaTypeOrNull(),file)
+            val reqFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
             val body = MultipartBody.Part.createFormData("cfp", file.name, reqFile)
-            var shredpref= this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
-            var editor=shredpref.edit()
-            var token: String = shredpref.getString("token",null).toString()
-            var header= "Bearer $token"
+            var shredpref =
+                this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
+            var editor = shredpref.edit()
+            var token: String = shredpref.getString("token", null).toString()
+            var header = "Bearer $token"
 
 
-            var uploadResponse= ApiClient.userService.updateCfp(header,body)
+            var uploadResponse = ApiClient.userService.updateCfp(header, body)
             uploadResponse.enqueue(object : Callback<UserResponse?> {
                 override fun onResponse(
                     call: Call<UserResponse?>,
                     response: Response<UserResponse?>
                 ) {
-                    if (response.isSuccessful)
-                    {
+                    if (response.isSuccessful) {
 
                         context?.let {
                             Glide.with(it)
@@ -178,27 +204,35 @@ class ProfileFragment : Fragment() {
                         };
 
                         // <------------- cover shimmers here--------------->
-                    }
-                    else
-                    {
-                        editor.apply{
-                            putString("token",null)
-                            putBoolean("isLogin",false)
+                        binding.updateCoverShimmer.stopShimmer()
+                        binding.updateCoverShimmer.visibility = View.GONE
+                    } else {
+                        editor.apply {
+                            putString("token", null)
+                            putBoolean("isLogin", false)
                             apply()
 
                         }
-                        Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            context,
+                            "Couldn't fetch data, please login again",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
 
                 override fun onFailure(call: Call<UserResponse?>, t: Throwable) {
-                    editor.apply{
-                        putString("token",null)
-                        putBoolean("isLogin",false)
+                    editor.apply {
+                        putString("token", null)
+                        putBoolean("isLogin", false)
                         apply()
 
                     }
-                    Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "Couldn't fetch data, please login again",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             })
         }
@@ -207,23 +241,27 @@ class ProfileFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        var shredpref= this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
-        var editor= shredpref.edit()
-        var token: String = shredpref.getString("token",null).toString()
-        var header= "Bearer $token"
+        var shredpref =
+            this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
+        var editor = shredpref.edit()
+        var token: String = shredpref.getString("token", null).toString()
+        var header = "Bearer $token"
 
 
         var userResponse = ApiClient.userService.getUser(header)
 
         userResponse.enqueue(object : Callback<UserResponse?> {
             override fun onResponse(call: Call<UserResponse?>, response: Response<UserResponse?>) {
-                if (response.isSuccessful)
-                {
-                    binding.userName.text=response.body()?.username.toString()
-                    binding.Name.text=response.body()?.first_name.toString()
-                    binding.bio.text=response.body()?.bio.toString()
-                    binding.noOfPosts.text=response.body()?.posts.toString()
-                    binding.noOfLikes.text=response.body()?.likes.toString()
+                if (response.isSuccessful) {
+
+                    binding.coverShimmer.stopShimmer()
+                    binding.coverShimmer.visibility = View.GONE
+
+                    binding.userName.text = response.body()?.username.toString()
+                    binding.Name.text = response.body()?.first_name.toString()
+                    binding.bio.text = response.body()?.bio.toString()
+                    binding.noOfPosts.text = response.body()?.posts.toString()
+                    binding.noOfLikes.text = response.body()?.likes.toString()
                     Glide.with(activity!!)
                         .load("${ApiClient.BASE_URL}${response.body()?.pfp}")
                         .placeholder(R.drawable.ic_logo)
@@ -235,26 +273,33 @@ class ProfileFragment : Fragment() {
                         .into(binding.coverPhoto);
 
                     // <-------------both shimmers here--------------->
-                }
-                else{
-                    editor.apply{
-                        putString("token",null)
-                        putBoolean("isLogin",false)
+                } else {
+                    editor.apply {
+                        putString("token", null)
+                        putBoolean("isLogin", false)
                         apply()
 
                     }
-                    Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "Couldn't fetch data, please login again",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
             override fun onFailure(call: Call<UserResponse?>, t: Throwable) {
-                editor.apply{
-                    putString("token",null)
-                    putBoolean("isLogin",false)
+                editor.apply {
+                    putString("token", null)
+                    putBoolean("isLogin", false)
                     apply()
 
                 }
-                Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    "Couldn't fetch data, please login again",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
     }
@@ -263,10 +308,11 @@ class ProfileFragment : Fragment() {
         val builder = AlertDialog.Builder(requireActivity())
         val dialogLayout = requireActivity().layoutInflater.inflate(R.layout.edit_text_dialog, null)
         val editDetails = dialogLayout.findViewById<EditText>(R.id.editDetails)
-        var shredpref= this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
-        var editor=shredpref.edit()
-        var token: String = shredpref.getString("token",null).toString()
-        var header= "Bearer $token"
+        var shredpref =
+            this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
+        var editor = shredpref.edit()
+        var token: String = shredpref.getString("token", null).toString()
+        var header = "Bearer $token"
         with(builder) {
             setTitle(title)
             setPositiveButton("Save") { _, _ ->
@@ -278,38 +324,44 @@ class ProfileFragment : Fragment() {
                         binding.bio.text = editDetails.text.toString()
                     }
                 }
-                var user= UserUpdate(binding.Name.text.toString(),binding.bio.text.toString())
+                var user = UserUpdate(binding.Name.text.toString(), binding.bio.text.toString())
 
-                var updateResponse= ApiClient.userService.updateUser(header,user)
+                var updateResponse = ApiClient.userService.updateUser(header, user)
                 updateResponse.enqueue(object : Callback<LikeResponse?> {
                     override fun onResponse(
                         call: Call<LikeResponse?>,
                         response: Response<LikeResponse?>
                     ) {
-                        if (response.isSuccessful)
-                        {
-                            Toast.makeText(context, "${response.body()?.msg}", Toast.LENGTH_SHORT).show()
-                        }
-                        else
-                        {
-                            editor.apply{
-                                putString("token",null)
-                                putBoolean("isLogin",false)
+                        if (response.isSuccessful) {
+                            Toast.makeText(context, "${response.body()?.msg}", Toast.LENGTH_SHORT)
+                                .show()
+                        } else {
+                            editor.apply {
+                                putString("token", null)
+                                putBoolean("isLogin", false)
                                 apply()
 
                             }
-                            Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                context,
+                                "Couldn't fetch data, please login again",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
 
                     override fun onFailure(call: Call<LikeResponse?>, t: Throwable) {
-                        editor.apply{
-                            putString("token",null)
-                            putBoolean("isLogin",false)
+                        editor.apply {
+                            putString("token", null)
+                            putBoolean("isLogin", false)
                             apply()
 
                         }
-                        Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            context,
+                            "Couldn't fetch data, please login again",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 })
             }

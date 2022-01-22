@@ -19,18 +19,22 @@ import retrofit2.Response
 
 class UserProfileFragment : Fragment() {
 
-    private var _binding:FragmentUserProfileBinding?=null
+    private var _binding: FragmentUserProfileBinding? = null
     private val binding get() = _binding!!
-    lateinit var usrname:String
+    lateinit var usrname: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-        _binding = FragmentUserProfileBinding.inflate(inflater,container,false)
+        _binding = FragmentUserProfileBinding.inflate(inflater, container, false)
 
-        usrname= arguments?.getString("username")!!
+        binding.coverShimmer.startShimmer()
+        binding.coverShimmer.visibility = View.VISIBLE
+
+
+        usrname = arguments?.getString("username")!!
 
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
@@ -45,20 +49,24 @@ class UserProfileFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        var shredpref= this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
-        var editor= shredpref.edit()
-        var token: String = shredpref.getString("token",null).toString()
-        var header= "Bearer $token"
-        var userResponse = ApiClient.userService.getUserPrf(header,usr = usrname)
+        var shredpref =
+            this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
+        var editor = shredpref.edit()
+        var token: String = shredpref.getString("token", null).toString()
+        var header = "Bearer $token"
+        var userResponse = ApiClient.userService.getUserPrf(header, usr = usrname)
 
         userResponse.enqueue(object : Callback<UserResponse?> {
             override fun onResponse(call: Call<UserResponse?>, response: Response<UserResponse?>) {
-                if(response.isSuccessful)
-                {
-                    binding.userName.text=response.body()?.username.toString()
-                    binding.Name.text=response.body()?.first_name.toString()
-                    binding.noOfLikes.text=response.body()?.likes.toString()
-                    binding.noOfPosts.text=response.body()?.posts.toString()
+                if (response.isSuccessful) {
+
+                    binding.coverShimmer.stopShimmer()
+                    binding.coverShimmer.visibility = View.GONE
+
+                    binding.userName.text = response.body()?.username.toString()
+                    binding.Name.text = response.body()?.first_name.toString()
+                    binding.noOfLikes.text = response.body()?.likes.toString()
+                    binding.noOfPosts.text = response.body()?.posts.toString()
 
                     // shimmers here
 
@@ -71,26 +79,33 @@ class UserProfileFragment : Fragment() {
                         .load("${ApiClient.BASE_URL}${response.body()?.cfp}")
                         .placeholder(R.drawable.ic_logo)
                         .into(binding.coverPhoto);
-                }
-                else{
-                    editor.apply{
-                        putString("token",null)
-                        putBoolean("isLogin",false)
+                } else {
+                    editor.apply {
+                        putString("token", null)
+                        putBoolean("isLogin", false)
                         apply()
 
                     }
-                    Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "Couldn't fetch data, please login again",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
             override fun onFailure(call: Call<UserResponse?>, t: Throwable) {
-                editor.apply{
-                    putString("token",null)
-                    putBoolean("isLogin",false)
+                editor.apply {
+                    putString("token", null)
+                    putBoolean("isLogin", false)
                     apply()
 
                 }
-                Toast.makeText(context, "Couldn't fetch data, please login again", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    "Couldn't fetch data, please login again",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
     }

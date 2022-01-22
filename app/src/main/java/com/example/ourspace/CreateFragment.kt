@@ -42,6 +42,9 @@ class CreateFragment : Fragment() {
 
         _binding = FragmentCreateBinding.inflate(inflater, container, false)
 
+        binding.progressBar.visibility = View.GONE
+        binding.publish.visibility = View.VISIBLE
+
         val addImage = registerForActivityResult(
             ActivityResultContracts.GetContent(),
             ActivityResultCallback { uri ->
@@ -59,6 +62,9 @@ class CreateFragment : Fragment() {
             findNavController().navigate(R.id.homeFragment)
         }
         binding.publish.setOnClickListener {
+
+            binding.progressBar.visibility = View.VISIBLE
+            binding.publish.visibility = View.GONE
 
             if (binding.caption.text.isNullOrEmpty())
             {
