@@ -21,7 +21,7 @@ class UserProfileFragment : Fragment() {
 
     private var _binding: FragmentUserProfileBinding? = null
     private val binding get() = _binding!!
-    lateinit var usrname: String
+    private lateinit var usrname: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,19 +49,16 @@ class UserProfileFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        var shredpref =
+        val shredpref =
             this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
-        var editor = shredpref.edit()
-        var token: String = shredpref.getString("token", null).toString()
-        var header = "Bearer $token"
-        var userResponse = ApiClient.userService.getUserPrf(header, usr = usrname)
+        val editor = shredpref.edit()
+        val token: String = shredpref.getString("token", null).toString()
+        val header = "Bearer $token"
+        val userResponse = ApiClient.userService.getUserPrf(header, usr = usrname)
 
         userResponse.enqueue(object : Callback<UserResponse?> {
             override fun onResponse(call: Call<UserResponse?>, response: Response<UserResponse?>) {
                 if (response.isSuccessful) {
-
-                    binding.coverShimmer.stopShimmer()
-                    binding.coverShimmer.visibility = View.GONE
 
                     binding.userName.text = response.body()?.username.toString()
                     binding.Name.text = response.body()?.first_name.toString()
@@ -73,13 +70,16 @@ class UserProfileFragment : Fragment() {
 
                     Glide.with(activity!!)
                         .load("${ApiClient.BASE_URL}${response.body()?.pfp}")
-                        .placeholder(R.drawable.ic_logo)
-                        .into(binding.profilePhoto);
+                        .placeholder(R.drawable.ic_avatars)
+                        .into(binding.profilePhoto)
 
                     Glide.with(activity!!)
                         .load("${ApiClient.BASE_URL}${response.body()?.cfp}")
-                        .placeholder(R.drawable.ic_logo)
-                        .into(binding.coverPhoto);
+                        .placeholder(R.drawable.cover)
+                        .into(binding.coverPhoto)
+
+                    binding.coverShimmer.stopShimmer()
+                    binding.coverShimmer.visibility = View.GONE
                 } else {
                     editor.apply {
                         putString("token", null)

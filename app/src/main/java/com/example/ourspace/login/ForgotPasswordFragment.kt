@@ -12,14 +12,14 @@ import com.example.ourspace.databinding.FragmentForgotPasswordBinding
 
 class ForgotPasswordFragment : Fragment() {
 
-    private var _binding: FragmentForgotPasswordBinding?=null
+    private var _binding: FragmentForgotPasswordBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentForgotPasswordBinding.inflate(inflater,container,false)
+        _binding = FragmentForgotPasswordBinding.inflate(inflater, container, false)
         binding.progressBar.visibility = View.GONE
         binding.savePassword.visibility = View.VISIBLE
 

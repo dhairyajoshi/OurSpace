@@ -29,11 +29,12 @@ class HomeFragment : Fragment() {
         }
 
         binding.logout.setOnClickListener {
-            var shredpref= this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
-            var editor= shredpref.edit()
-            editor.apply{
-                putString("token",null)
-                putBoolean("isLogin",false)
+            val shredpref =
+                this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
+            val editor = shredpref.edit()
+            editor.apply {
+                putString("token", null)
+                putBoolean("isLogin", false)
                 apply()
             }
             findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
@@ -63,7 +64,8 @@ class HomeFragment : Fragment() {
         // Your navGraphIds must have the same ids as your menuItem ids
         val navGraphIds = listOf(R.navigation.feed, R.navigation.profile)
 
-        binding.bottomNav.selectedItemId = bottomNavSelectedItemId // Needed to maintain correct state on return
+        binding.bottomNav.selectedItemId =
+            bottomNavSelectedItemId // Needed to maintain correct state on return
 
         val controller = binding.bottomNav.setupWithNavController(
             fragmentManager = childFragmentManager,

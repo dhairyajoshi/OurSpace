@@ -6,7 +6,7 @@ import okhttp3.OkHttpClient
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiClient {
-    const val BASE_URL="https://app-ourspace.herokuapp.com"
+    const val BASE_URL = "https://app-ourspace.herokuapp.com"
 
     private val retrofit: Retrofit
         get() {

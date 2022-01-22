@@ -13,7 +13,6 @@ import com.example.ourspace.databinding.FragmentRegisterBinding
 import com.example.ourspace.retrofit.ApiClient
 import com.example.ourspace.retrofit.SignupResponse
 import com.example.ourspace.retrofit.UserRegister
-import com.example.ourspace.retrofit.UserResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,13 +32,11 @@ class RegisterFragment : Fragment() {
         binding.progressBar.visibility = View.GONE
         binding.register.visibility = View.VISIBLE
 
-        var shredpref =
+        val shredpref =
             this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
-        var editor = shredpref.edit()
-        var token: String = shredpref.getString("token", null).toString()
+        val editor = shredpref.edit()
+        val token: String = shredpref.getString("token", null).toString()
         var header = "Bearer $token"
-
-
 
 
         binding.register.setOnClickListener {
@@ -59,18 +56,18 @@ class RegisterFragment : Fragment() {
                 binding.Password.error = "Password must have 8 characters"
                 return@setOnClickListener
             }
-            if (!binding.Password.text.toString().equals(binding.ConfirmPassword.text.toString())) {
+            if (binding.Password.text.toString() != binding.ConfirmPassword.text.toString()) {
                 binding.ConfirmPassword.error = "Both passwords must not be empty and must match!"
                 return@setOnClickListener
             }
 
-            var username = binding.userName.text.toString()
-            var name = binding.fullName.text.toString()
-            var password = binding.Password.text.toString()
+            val username = binding.userName.text.toString()
+            val name = binding.fullName.text.toString()
+            val password = binding.Password.text.toString()
 
-            var user = UserRegister(username, name, password)
+            val user = UserRegister(username, name, password)
 
-            var loginResponse = ApiClient.userService.registerUser(user)
+            val loginResponse = ApiClient.userService.registerUser(user)
 
             loginResponse.enqueue(object : Callback<SignupResponse?> {
                 override fun onResponse(

@@ -9,7 +9,7 @@
         android:id="@+id/feedFragment"
         android:name="com.example.ourspace.FeedFragment"
         android:label="fragment_feed"
-        tools:layout="@layout/fragment_feed" >
+        tools:layout="@layout/fragment_feed">
         <action
             android:id="@+id/action_feedFragment_to_userProfileFragment"
             app:destination="@id/userProfileFragment" />
@@ -21,7 +21,7 @@
         android:id="@+id/userProfileFragment"
         android:name="com.example.ourspace.UserProfileFragment"
         android:label="fragment_user_profile"
-        tools:layout="@layout/fragment_user_profile" >
+        tools:layout="@layout/fragment_user_profile">
         <action
             android:id="@+id/action_userProfileFragment_to_feedFragment"
             app:destination="@id/feedFragment"
@@ -32,13 +32,13 @@
         android:id="@+id/notificationsFragment"
         android:name="com.example.ourspace.NotificationsFragment"
         android:label="fragment_notifications"
-        tools:layout="@layout/fragment_notifications" >
+        tools:layout="@layout/fragment_notifications">
         <action
             android:id="@+id/action_notificationsFragment_to_feedFragment"
             app:destination="@id/feedFragment" />
         <argument
             android:name="greetingMessage"
-            app:argType="string"
-            android:defaultValue="Hello, User" />
+            android:defaultValue="Hello, User"
+            app:argType="string" />
     </fragment>
 </navigation>

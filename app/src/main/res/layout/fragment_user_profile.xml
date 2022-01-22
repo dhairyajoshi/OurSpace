@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".UserProfileFragment">
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/coverShimmer"
-        android:elevation="50dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <include layout="@layout/cover_shimmer"/>
+        android:layout_height="match_parent"
+        android:elevation="50dp">
+
+        <include layout="@layout/cover_shimmer" />
     </com.facebook.shimmer.ShimmerFrameLayout>
 
     <ImageView
         android:id="@+id/coverPhoto"
         android:layout_width="0dp"
         android:layout_height="170dp"
-        android:src="@drawable/cover"
+        android:contentDescription="@string/cover_photo"
         android:scaleType="centerCrop"
+        android:src="@drawable/cover"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -40,6 +42,7 @@
             android:id="@+id/profilePhoto"
             android:layout_width="130dp"
             android:layout_height="130dp"
+            android:contentDescription="@string/profile_photo"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_avatars" />
 
@@ -51,12 +54,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/hkgrotesk_bold"
-        tools:text="user_name"
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dpHolder" />
+        app:layout_constraintTop_toBottomOf="@+id/dpHolder"
+        tools:text="user_name" />
 
 
     <View
@@ -91,7 +94,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="35dp"
         android:fontFamily="@font/hkgrotesk_regular"
-        android:text="Name"
+        android:text="@string/name"
         android:textColor="@color/pink"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -117,7 +120,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/hkgrotesk_regular"
-        android:text="Bio"
+        android:text="@string/bio"
         android:textColor="@color/pink"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -142,74 +145,76 @@
         android:id="@+id/recBG"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:src="@drawable/ic_rectangle"
         android:layout_marginStart="70dp"
         android:layout_marginTop="40dp"
+        android:src="@drawable/ic_rectangle"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bio"
-        app:layout_constraintStart_toStartOf="parent"/>
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/postsText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Posts"
-        android:textColor="@color/pink"
-        android:textSize="12sp"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/hkgrotesk_medium"
-        app:layout_constraintTop_toTopOf="@id/recBG"
+        android:text="@string/posts"
+        android:textColor="@color/pink"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/recBG"
         app:layout_constraintStart_toStartOf="@id/recBG"
-        app:layout_constraintEnd_toEndOf="@id/recBG"/>
+        app:layout_constraintTop_toTopOf="@id/recBG" />
 
     <TextView
         android:id="@+id/noOfPosts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="24"
-        android:textColor="@color/blue"
-        android:textSize="26sp"
         android:layout_marginTop="5dp"
         android:fontFamily="@font/hkgrotesk_semibold"
+        android:textColor="@color/blue"
+        android:textSize="26sp"
         app:layout_constraintBottom_toBottomOf="@id/recBG"
-        app:layout_constraintTop_toTopOf="@id/recBG"
+        app:layout_constraintEnd_toEndOf="@id/recBG"
         app:layout_constraintStart_toStartOf="@id/recBG"
-        app:layout_constraintEnd_toEndOf="@id/recBG"/>
+        app:layout_constraintTop_toTopOf="@id/recBG"
+        tools:text="24" />
 
     <ImageView
         android:id="@+id/recBG2"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:src="@drawable/ic_rectangle"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="70dp"
+        android:src="@drawable/ic_rectangle"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bio"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/likesText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Likes"
-        android:textColor="@color/pink"
-        android:textSize="12sp"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/hkgrotesk_medium"
-        app:layout_constraintTop_toTopOf="@id/recBG2"
+        android:text="@string/likes"
+        android:textColor="@color/pink"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/recBG2"
         app:layout_constraintStart_toStartOf="@id/recBG2"
-        app:layout_constraintEnd_toEndOf="@id/recBG2"/>
+        app:layout_constraintTop_toTopOf="@id/recBG2" />
 
     <TextView
         android:id="@+id/noOfLikes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="132"
-        android:textColor="@color/blue"
-        android:textSize="26sp"
         android:layout_marginTop="5dp"
         android:fontFamily="@font/hkgrotesk_semibold"
+        android:textColor="@color/blue"
+        android:textSize="26sp"
         app:layout_constraintBottom_toBottomOf="@id/recBG2"
-        app:layout_constraintTop_toTopOf="@id/recBG2"
+        app:layout_constraintEnd_toEndOf="@id/recBG2"
         app:layout_constraintStart_toStartOf="@id/recBG2"
-        app:layout_constraintEnd_toEndOf="@id/recBG2"/>
+        app:layout_constraintTop_toTopOf="@id/recBG2"
+        tools:text="132" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:fontFamily="@font/hkgrotesk_semibold"
-        android:text="Discard"
+        android:text="@string/discard"
         android:textAllCaps="false"
         android:textColor="@color/blue"
         android:textSize="14sp"
@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/hkgrotesk_bold"
-        android:text="CREATE"
+        android:text="@string/create"
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@id/discard"
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/pink"
         android:fontFamily="@font/hkgrotesk_semibold"
-        android:text="Publish"
+        android:text="@string/publish"
         android:textAllCaps="false"
         android:textSize="14sp"
         app:cornerRadius="20dp"
@@ -52,8 +52,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        app:cardCornerRadius="15dp"
         android:backgroundTint="@color/background"
+        app:cardCornerRadius="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/addImage">
@@ -61,33 +61,34 @@
         <ImageView
             android:id="@+id/postImage"
             android:layout_width="300dp"
-            android:scaleType="fitCenter"
             android:layout_height="300dp"
+            android:contentDescription="@string/posts_photo"
+            android:scaleType="fitCenter"
             android:src="@color/background" />
 
     </androidx.cardview.widget.CardView>
 
     <ProgressBar
         android:id="@+id/progressBar"
-        android:layout_marginEnd="5dp"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:layout_marginEnd="5dp"
         android:indeterminate="true"
-        android:indeterminateTintMode="src_atop"
         android:indeterminateTint="@color/pink"
+        android:indeterminateTintMode="src_atop"
+        app:layout_constraintBottom_toBottomOf="@id/discard"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/discard"
-        app:layout_constraintBottom_toBottomOf="@id/discard"/>
+        app:layout_constraintTop_toTopOf="@id/discard" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="*Image Preview*"
         android:layout_marginTop="10dp"
+        android:text="@string/image_preview"
         android:textColor="@color/shimmer_color"
         app:layout_constraintEnd_toEndOf="@id/imageHolder"
-        app:layout_constraintTop_toBottomOf="@+id/imageHolder"
-        app:layout_constraintStart_toStartOf="@id/imageHolder"/>
+        app:layout_constraintStart_toStartOf="@id/imageHolder"
+        app:layout_constraintTop_toBottomOf="@+id/imageHolder" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/dpHolder"
@@ -103,6 +104,7 @@
             android:id="@+id/usepfp"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:contentDescription="@string/profile_photo"
             android:src="@drawable/ic_avatars" />
 
     </androidx.cardview.widget.CardView>
@@ -115,13 +117,15 @@
         android:layout_marginEnd="20dp"
         android:background="@android:color/transparent"
         android:fontFamily="@font/hkgrotesk_medium"
-        android:hint="What's in your Mind?"
+        android:hint="@string/what_s_in_your_mind"
         android:textColor="@color/white"
         android:textColorHint="#baf1f1f1"
         app:layout_constraintBottom_toBottomOf="@id/dpHolder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/dpHolder"
-        app:layout_constraintTop_toTopOf="@id/dpHolder" />
+        app:layout_constraintTop_toTopOf="@id/dpHolder"
+        android:autofillHints="false"
+        android:inputType="text" />
 
     <TextView
         android:id="@+id/addImage"
@@ -131,7 +135,7 @@
         android:drawablePadding="5dp"
         android:fontFamily="@font/hkgrotesk_medium"
         android:gravity="center"
-        android:text="Add Image"
+        android:text="@string/add_image"
         android:textColor="@color/white"
         android:textSize="16sp"
         app:drawableStartCompat="@drawable/ic_add"
