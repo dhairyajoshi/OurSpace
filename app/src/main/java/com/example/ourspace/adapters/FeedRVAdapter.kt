@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.Navigation
@@ -23,6 +24,7 @@ import com.example.ourspace.retrofit.PostResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.nio.file.Files.delete
 
 class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
     RecyclerView.Adapter<FeedRVAdapter.ItemViewHolder>() {
@@ -37,6 +39,7 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
         val profilePhoto: ImageView = view.findViewById(R.id.profilePhoto)
         val image: ImageView = view.findViewById(R.id.image)
         val like: ImageView = view.findViewById(R.id.like)
+        val menu: ImageView = view.findViewById(R.id.popupMenu)
         val noOflikes: TextView = view.findViewById(R.id.noOfLikes)
         val dpHeart: ImageView = view.findViewById(R.id.dpHeart)
         val drawable: Drawable = dpHeart.drawable
@@ -81,6 +84,35 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
             })
 
             itemView.isSoundEffectsEnabled = false
+
+            //For hiding visibility
+            //menu.visibility = View.GONE
+
+            menu.setOnClickListener { popupMenus(it) }
+        }
+
+        private fun popupMenus(v: View) {
+            val popupMenus = PopupMenu(context, v)
+            popupMenus.inflate(R.menu.feed_menu)
+            popupMenus.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.hide -> {
+                        Toast.makeText(context, "Item Hidden", Toast.LENGTH_SHORT).show()
+                        true
+                    }
+                    R.id.delete -> {
+                        Toast.makeText(context, "Item Deleted", Toast.LENGTH_SHORT).show()
+                        true
+                    }
+                    else -> true
+                }
+            }
+            popupMenus.show()
+            val popup = PopupMenu::class.java.getDeclaredField("mPopup")
+            popup.isAccessible = true
+            val menu = popup.get(popupMenus)
+            menu.javaClass.getDeclaredMethod("setForceShowIcon", Boolean::class.java)
+                .invoke(menu, true)
         }
     }
 

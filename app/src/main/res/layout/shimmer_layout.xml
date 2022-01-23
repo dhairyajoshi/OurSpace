@@ -20,7 +20,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="30dp">
+            android:padding="20dp">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/dpHolder"
@@ -64,11 +64,24 @@
 
             <ImageView
                 android:id="@+id/like"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="12dp"
+                android:padding="2dp"
                 android:src="@drawable/ic_favorite_light"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/imageHolder"
+                app:layout_constraintTop_toBottomOf="@id/imageHolder"
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="18dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/shimmer_color"
+                app:layout_constraintBottom_toBottomOf="@id/like"
+                app:layout_constraintStart_toEndOf="@+id/like"
+                app:layout_constraintTop_toTopOf="@id/like"
                 tools:ignore="ContentDescription" />
 
             <TextView
@@ -82,7 +95,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/dpHolder" />
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/caption2"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
@@ -91,7 +104,7 @@
                 android:textColor="#F1F1F1"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/caption" />
+                app:layout_constraintTop_toBottomOf="@id/caption" />-->
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/imageHolder"
@@ -103,7 +116,7 @@
                 app:layout_constraintDimensionRatio="1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/caption2">
+                app:layout_constraintTop_toBottomOf="@+id/caption">
 
                 <ImageView
                     android:id="@+id/image"

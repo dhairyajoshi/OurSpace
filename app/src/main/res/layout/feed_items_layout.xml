@@ -19,7 +19,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="30dp">
+            android:padding="20dp">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/dpHolder"
@@ -62,25 +62,38 @@
                 tools:text="Just Now" />
 
             <ImageView
-                android:id="@+id/like"
+                android:id="@+id/popupMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@drawable/ic_more"
+                android:padding="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/menu" />
+
+            <ImageView
+                android:id="@+id/like"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:contentDescription="@string/likes"
                 android:src="@drawable/ic_favorite_light"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:padding="2dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="@+id/imageHolder"
+                app:layout_constraintTop_toBottomOf="@id/imageHolder"/>
 
             <TextView
                 android:id="@+id/noOfLikes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/hkgrotesk_medium"
-                tools:text="0"
+                tools:text="500"
                 android:textColor="#F1F1F1"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="@+id/like"
-                app:layout_constraintStart_toStartOf="@+id/like"
-                app:layout_constraintTop_toBottomOf="@+id/like" />
+                android:textSize="18sp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintStart_toEndOf="@+id/like"
+                app:layout_constraintTop_toTopOf="@id/like"
+                app:layout_constraintBottom_toBottomOf="@id/like"/>
 
             <TextView
                 android:id="@+id/caption"

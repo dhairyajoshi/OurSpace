@@ -38,6 +38,9 @@
     <string name="add">Add</string>
     <string name="profile">Profile</string>
     <string name="notifications">Notifications</string>
+    <string name="delete">Delete</string>
+    <string name="hide">Hide</string>
+    <string name="menu">Menu</string>
 
     <string-array name="userNames">
         <item name="User1">Adarsh Kumar Goswami</item>
