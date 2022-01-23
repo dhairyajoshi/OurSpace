@@ -63,5 +63,13 @@ interface API {
         @Part image: MultipartBody.Part
     ): retrofit2.Call<UserResponse>
 
+    @POST("post/postaction/{id}/{act}")
+    fun adminAction(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int,
+        @Path("act") act: String
+    ): retrofit2.Call<LikeResponse>
+
+
 
 }

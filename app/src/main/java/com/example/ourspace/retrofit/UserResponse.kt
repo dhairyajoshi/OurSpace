@@ -7,5 +7,6 @@ data class UserResponse(
     val pfp: String,
     val cfp: String,
     val posts: Int,
-    val likes: Int
+    val likes: Int,
+    val is_staff:Boolean
 )

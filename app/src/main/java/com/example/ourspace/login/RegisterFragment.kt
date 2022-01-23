@@ -41,8 +41,7 @@ class RegisterFragment : Fragment() {
 
         binding.register.setOnClickListener {
 
-            binding.progressBar.visibility = View.VISIBLE
-            binding.register.visibility = View.GONE
+
 
             if (binding.userName.text.isNullOrEmpty()) {
                 binding.userName.error = "username cannot be empty!"
@@ -60,6 +59,9 @@ class RegisterFragment : Fragment() {
                 binding.ConfirmPassword.error = "Both passwords must not be empty and must match!"
                 return@setOnClickListener
             }
+
+            binding.progressBar.visibility = View.VISIBLE
+            binding.register.visibility = View.GONE
 
             val username = binding.userName.text.toString()
             val name = binding.fullName.text.toString()

@@ -3,24 +3,21 @@ package com.example.ourspace.adapters
 import android.content.Context
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.Drawable
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.PopupMenu
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.bumptech.glide.Glide
 import com.example.ourspace.R
 import com.example.ourspace.models.Utils
-import com.example.ourspace.retrofit.ApiClient
+import com.example.ourspace.retrofit.*
 import com.example.ourspace.retrofit.ApiClient.BASE_URL
-import com.example.ourspace.retrofit.LikedResponse
-import com.example.ourspace.retrofit.PostResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -45,9 +42,10 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
         val drawable: Drawable = dpHeart.drawable
 
         init {
+
             itemView.setOnClickListener(object : DoubleClickListener() {
                 override fun onDoubleClick(v: View?) {
-                    val position = adapterPosition
+                    var position= adapterPosition
                     dpHeart.alpha = 0.8f
                     if (drawable is AnimatedVectorDrawableCompat) {
                         avd = drawable
@@ -69,7 +67,12 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
                             if (response.isSuccessful) {
 
                                 like.setImageResource(R.drawable.ic_favorite_fill)
-                                noOflikes.text = response.body()?.count.toString()
+                                when (response.body()?.count) {
+                                    0-> noOflikes!!.text=""
+                                    1 -> noOflikes!!.text = "liked by ${response.body()?.usr}"
+                                    2 -> noOflikes!!.text = "liked by ${response.body()?.usr} and 1 other"
+                                    else -> noOflikes!!.text = "liked by ${response.body()?.usr} and ${response.body()!!.count-1} others"
+                                }
 
                             }
                         }
@@ -94,14 +97,73 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
         private fun popupMenus(v: View) {
             val popupMenus = PopupMenu(context, v)
             popupMenus.inflate(R.menu.feed_menu)
+            var position= adapterPosition
+
+
             popupMenus.setOnMenuItemClickListener {
+                val shredpref =
+                    context.getSharedPreferences("ourspace", Context.MODE_PRIVATE)
+                val token: String = shredpref.getString("token", null).toString()
+                val header = "Bearer $token"
                 when (it.itemId) {
                     R.id.hide -> {
-                        Toast.makeText(context, "Item Hidden", Toast.LENGTH_SHORT).show()
+                        var adminResponse= ApiClient.userService.adminAction(header,id=posts[position].id,act="hid")
+                        adminResponse.enqueue(object : Callback<LikeResponse?> {
+                            override fun onResponse(
+                                call: Call<LikeResponse?>,
+                                response: Response<LikeResponse?>
+                            ) {
+                                if (response.isSuccessful)
+                                {
+                                    Toast.makeText(context, "${response.body()?.msg}", Toast.LENGTH_SHORT).show()
+                                }
+                                else {
+                                    Toast.makeText(
+                                        context,
+                                        "Something went wrong, please login again",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+
+                            override fun onFailure(call: Call<LikeResponse?>, t: Throwable) {
+                                Toast.makeText(
+                                    context,
+                                    "Something went wrong, please login again",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        })
                         true
                     }
                     R.id.delete -> {
-                        Toast.makeText(context, "Item Deleted", Toast.LENGTH_SHORT).show()
+                        var adminResponse= ApiClient.userService.adminAction(header,posts[position].id,"del")
+                        adminResponse.enqueue(object : Callback<LikeResponse?> {
+                            override fun onResponse(
+                                call: Call<LikeResponse?>,
+                                response: Response<LikeResponse?>
+                            ) {
+                                if (response.isSuccessful)
+                                {
+                                    Toast.makeText(context, "${response.body()?.msg}", Toast.LENGTH_SHORT).show()
+                                }
+                                else {
+                                    Toast.makeText(
+                                        context,
+                                        "Something went wrong, please login again",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+
+                            override fun onFailure(call: Call<LikeResponse?>, t: Throwable) {
+                                Toast.makeText(
+                                    context,
+                                    "Something went wrong, please login again",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        })
                         true
                     }
                     else -> true
@@ -130,7 +192,6 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
         val currentUploadTime = posts[position].date
         val currentCaption = posts[position].caption
         holder.userName.text = currentUserName
-//        holder.uploadTime.text = currentUploadTime
         holder.uploadTime.text = Utils.getTimeAgo(currentUploadTime)
         holder.caption.text = currentCaption
         val shredpref = context.getSharedPreferences("ourspace", Context.MODE_PRIVATE)
@@ -147,6 +208,12 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
                     val res =
                         if (response.body()?.msg.toString() == "1") R.drawable.ic_favorite_fill else R.drawable.ic_favorite_light
                     holder.like.setImageResource(res)
+                    when (response.body()?.count) {
+                        0-> holder.noOflikes.text=""
+                        1 -> holder.noOflikes.text = "liked by ${response.body()?.usr}"
+                        2 -> holder.noOflikes.text = "liked by ${response.body()?.usr} and 1 other"
+                        else -> holder.noOflikes.text = "liked by ${response.body()?.usr} and ${response.body()!!.count-1} others"
+                    }
                 }
             }
 
@@ -157,7 +224,6 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
 
         holder.like.setOnClickListener { likePost(position, holder = holder) }
         holder.like.isSoundEffectsEnabled = false
-        holder.noOflikes.text = posts[position].likes.toString()
         holder.image.adjustViewBounds
         Glide.with(context)
             .load("${BASE_URL}${posts[position].pic}")
@@ -237,9 +303,21 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
 
                     if (like == null) {
                         holder!!.like.setImageResource(res)
-                        holder.noOflikes.text = response.body()?.count.toString()
+
+                        when (response.body()?.count) {
+                            0-> holder.noOflikes!!.text=""
+                            1 -> holder.noOflikes.text = "liked by ${response.body()?.usr}"
+                            2 -> holder.noOflikes.text = "liked by ${response.body()?.usr} and 1 other"
+                            else -> holder.noOflikes.text = "liked by ${response.body()?.usr} and ${response.body()!!.count-1} others"
+                        }
+
                     } else {
-                        noOflikes?.text = response.body()?.count.toString()
+                        when (response.body()?.count) {
+                            0-> noOflikes!!.text=""
+                            1 -> noOflikes!!.text = "liked by ${response.body()?.usr}"
+                            2 -> noOflikes!!.text = "liked by ${response.body()?.usr} and 1 other"
+                            else -> noOflikes!!.text = "liked by ${response.body()?.usr} and ${response.body()!!.count-1} others"
+                        }
                         like.setImageResource(res)
                     }
                 }

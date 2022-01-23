@@ -49,6 +49,8 @@ class FeedFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
+        var is_staff=false
+        var user="none"
         swipeContainer = binding.swipeContainer
         // Setup refresh listener which triggers new data loading
         swipeContainer!!.setOnRefreshListener {
@@ -162,6 +164,8 @@ class FeedFragment : Fragment() {
                     val parts = fullName?.split(" ")?.toMutableList()
                     val firstName = parts?.firstOrNull()
                     binding.greetings.text = "${getGreetingMessage()}${firstName}"
+                    is_staff= response.body()?.is_staff!!
+                    user=response.body()?.username.toString()
                 } else {
 
                     editor.apply {
