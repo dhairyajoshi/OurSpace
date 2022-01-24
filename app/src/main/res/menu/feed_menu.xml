@@ -5,6 +5,7 @@
         android:id="@+id/hide"
         android:enabled="true"
         android:icon="@drawable/ic_outline_block_24"
+        android:iconTint="@color/blue"
         android:title="@string/hide"
         android:visible="true" />
 
@@ -12,6 +13,7 @@
         android:id="@+id/delete"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_delete_outline_24"
+        android:iconTint="#F53030"
         android:title="@string/delete" />
 
 </menu>

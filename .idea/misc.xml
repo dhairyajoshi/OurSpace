@@ -6,20 +6,21 @@
         <entry key="..\:/Programming/Android/OurSpace/app/src/main/res/layout/feed_items_layout.xml" value="0.2604166666666667" />
         <entry key="..\:/Programming/Android/OurSpace/app/src/main/res/layout/fragment_create.xml" value="0.2604166666666667" />
         <entry key="..\:/Programming/Android/OurSpace/app/src/main/res/layout/fragment_feed.xml" value="0.2604166666666667" />
-        <entry key="..\:/Programming/Android/OurSpace/app/src/main/res/menu/feed_menu.xml" value="0.14375" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/OurSpace/app/src/main/res/drawable/bottom_nav_style.xml" value="0.28615384615384615" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/OurSpace/app/src/main/res/drawable/gradient.xml" value="0.1486111111111111" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/OurSpace/app/src/main/res/drawable/heart.xml" value="0.19305555555555556" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/OurSpace/app/src/main/res/drawable/ic_avatars.xml" value="0.21544401544401545" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/OurSpace/app/src/main/res/drawable/ic_camera.xml" value="0.1486111111111111" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/OurSpace/app/src/main/res/drawable/ic_favorite_fill.xml" value="0.2125" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/OurSpace/app/src/main/res/drawable/ic_favorite_light.xml" value="0.2125" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/OurSpace/app/src/main/res/drawable/ic_feed.xml" value="0.28615384615384615" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/OurSpace/app/src/main/res/drawable/ic_more.xml" value="0.19305555555555556" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/OurSpace/app/src/main/res/drawable/ic_notifications.xml" value="0.2076388888888889" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/OurSpace/app/src/main/res/drawable/ic_sign_out.xml" value="0.2076388888888889" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/OurSpace/app/src/main/res/font/font.xml" value="0.11458333333333333" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/OurSpace/app/src/main/res/layout/activity_main.xml" value="0.136" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/OurSpace/app/src/main/res/layout/edit_text_dialog.xml" value="0.17930327868852458" />
-        <entry key="..\:/Users/ASUS/AndroidStudioProjects/OurSpace/app/src/main/res/layout/feed_items_layout.xml" value="0.2" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/OurSpace/app/src/main/res/layout/feed_items_layout.xml" value="0.176" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/OurSpace/app/src/main/res/layout/fragment_create.xml" value="0.176" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/OurSpace/app/src/main/res/layout/fragment_edit_profile.xml" value="0.2" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/OurSpace/app/src/main/res/layout/fragment_feed.xml" value="0.2" />
@@ -34,10 +35,11 @@
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/OurSpace/app/src/main/res/layout/notification_shimmer_layout.xml" value="0.14617486338797814" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/OurSpace/app/src/main/res/layout/notifications_feed_layout.xml" value="0.176" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/OurSpace/app/src/main/res/layout/notifications_item_layout.xml" value="0.17076502732240437" />
-        <entry key="..\:/Users/ASUS/AndroidStudioProjects/OurSpace/app/src/main/res/layout/shimmer_layout.xml" value="0.136" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/OurSpace/app/src/main/res/layout/shimmer_layout.xml" value="0.176" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/OurSpace/app/src/main/res/layout/update_cover_shimmer.xml" value="0.12773224043715847" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/OurSpace/app/src/main/res/layout/update_profile_shimmer.xml" value="0.15334699453551912" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/OurSpace/app/src/main/res/menu/bottom_nav_menu.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/OurSpace/app/src/main/res/menu/feed_menu.xml" value="0.205859375" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/OurSpace/app/src/main/res/menu/toolbar.xml" value="0.205859375" />
       </map>
     </option>

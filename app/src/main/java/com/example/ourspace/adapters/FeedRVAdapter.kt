@@ -227,7 +227,7 @@ class FeedRVAdapter(var context: Context, var posts: List<PostResponse>) :
         holder.image.adjustViewBounds
         Glide.with(context)
             .load("${BASE_URL}${posts[position].pic}")
-            .placeholder(R.color.background)
+            .placeholder(R.drawable.ic_loading)
             .into(holder.image)
         Glide.with(context)
             .load("${BASE_URL}${posts[position].pfp}")
