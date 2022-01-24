@@ -76,7 +76,7 @@ class RegisterFragment : Fragment() {
                     call: Call<SignupResponse?>,
                     response: Response<SignupResponse?>
                 ) {
-                    if (response.isSuccessful) {
+                    if (response.isSuccessful && response.body()?.code==200) {
                         editor.apply {
                             if (response.body() != null) {
                                 putString("token", response.body()?.token.toString())
@@ -85,7 +85,14 @@ class RegisterFragment : Fragment() {
                             }
                         }
                         findNavController().navigate(R.id.homeFragment)
-                    } else {
+                    }
+                    else if(response.isSuccessful && response.body()?.code==101)
+                    {
+                        Toast.makeText(context, "username already taken!", Toast.LENGTH_SHORT).show()
+                        binding.progressBar.visibility = View.GONE
+                        binding.register.visibility = View.VISIBLE
+                    }
+                    else {
                         Toast.makeText(context, "Something went wrong...", Toast.LENGTH_SHORT)
                             .show()
                         binding.progressBar.visibility = View.GONE

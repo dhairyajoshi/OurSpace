@@ -120,6 +120,8 @@ class CreateFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+
+
         val shredpref =
             this.requireActivity().getSharedPreferences("ourspace", Context.MODE_PRIVATE)
         val editor = shredpref.edit()
